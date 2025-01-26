@@ -1,0 +1,11 @@
+{
+  "Login": {
+    "FieldEmail": "Email",
+    "Password": "Password",
+    "Login": "Login",
+    "Create": "Create"
+  },
+  "Create": {
+    "Name": "Name"
+  }
+}
