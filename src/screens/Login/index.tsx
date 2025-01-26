@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import { MyTheme } from "../Theme";
 import { InputLogin } from "@/components/Inputs/InputLogin";
@@ -9,10 +9,27 @@ import { useNavigation } from "@react-navigation/native";
 const icon = require("@/assets/icon_light.png");
 import { RootStackList } from "routes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { authenticate } from "@/firebase/auth/FirebaseAuth";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
 export default function Login({ navigation }: Props) {
+  useEffect(() => {
+    async function testing() {
+      try {
+        var auth = await authenticate("uevertoandrade@gmail.com", "Nagato@10");
+
+        if (auth != undefined) {
+          console.log("LOGADOOOOOOOOOOOOOOOOOOO");
+        } else {
+          console.log("CREDENCIAIS INVÁLIDAS");
+        }
+      } catch (error) {
+        console.log({ error });
+      }
+    }
+    testing();
+  }, []);
   return (
     <View
       style={{
