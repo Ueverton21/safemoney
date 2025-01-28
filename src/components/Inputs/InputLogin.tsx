@@ -1,10 +1,15 @@
 import React from "react";
 import { View, TextInput, StyleSheet, TextInputProps } from "react-native";
 
-export function InputLogin(props: TextInputProps) {
+type InputLoginProps = TextInputProps & {
+  setValue: Function;
+};
+
+export function InputLogin({ setValue, ...rest }: InputLoginProps) {
   return (
     <TextInput
-      {...props}
+      {...rest}
+      onChangeText={(text) => setValue(text)}
       style={styles.input}
       placeholderTextColor={"#AAA"}
     ></TextInput>

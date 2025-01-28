@@ -1,34 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { MyTheme } from "../Theme";
 import { InputLogin } from "@/components/Inputs/InputLogin";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 
-import { useNavigation } from "@react-navigation/native";
-
 const icon = require("@/assets/icon_light.png");
-import { RootStackList } from "routes";
+import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { authenticate } from "@/firebase/auth/FirebaseAuth";
+import {
+  authenticate,
+  userIsAuthenticated,
+} from "@/firebase/auth/FirebaseAuth";
+import { Language, selectLanguage } from "@/translate/language";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
 export default function Login({ navigation }: Props) {
-  useEffect(() => {
-    async function testing() {
-      try {
-        var auth = await authenticate("uevertoandrade@gmail.com", "Nagato@10");
+  const [language, setLanguage] = useState<Language>();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-        if (auth != undefined) {
-          console.log("LOGADOOOOOOOOOOOOOOOOOOO");
-        } else {
-          console.log("CREDENCIAIS INVÁLIDAS");
-        }
-      } catch (error) {
-        console.log({ error });
-      }
+  useEffect(() => {
+    async function initial() {
+      setLanguage(selectLanguage("es"));
+
+      // try {
+      //   var auth = await authenticate("uevertonandrade@gmail.com", "Nagato@10");
+      //   if (auth != undefined) {
+      //     console.log("LOGADOOOOOOOOOOOOOOOOOOO");
+      //   } else {
+      //     console.log("CREDENCIAIS INVÁLIDAS");
+      //   }
+      // } catch (error) {
+      //   console.log({ error });
+      // }
     }
-    testing();
+    initial();
   }, []);
   return (
     <View
@@ -46,19 +54,27 @@ export default function Login({ navigation }: Props) {
         />
       </View>
 
-      <InputLogin placeholder="Email" />
-      <InputLogin placeholder="Senha" />
+      <InputLogin
+        value={email}
+        setValue={setEmail}
+        placeholder={language?.Login.FieldEmail}
+      />
+      <InputLogin
+        value={password}
+        setValue={setPassword}
+        placeholder={language?.Login.Password}
+      />
       <View style={{ marginTop: 20 }}></View>
       <ButtonSubmit
         activeOpacity={0.7}
-        text="Login"
+        text={language?.Login.Login!}
         color={MyTheme.colors.primary}
       />
       <View style={{ marginTop: 20 }}></View>
       <ButtonSubmit
         onPress={() => navigation.navigate("Create")}
         activeOpacity={0.5}
-        text="Criar"
+        text={language?.Login.Create!}
         backgroundTranspatent
         color={MyTheme.colors.primary}
       />

@@ -6,6 +6,7 @@
     "Create": "Crear"
   },
   "Create": {
-    "Name": "Nombre"
+    "Name": "Nombre",
+    "LastName": "Sobrenombre"
   }
 }
