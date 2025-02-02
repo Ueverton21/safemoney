@@ -12,7 +12,6 @@ export function ErrorMessage({ message }: ErrorMessageProps) {
 
 const styles = StyleSheet.create({
   message: {
-    marginTop: 8,
     fontWeight: "bold",
     fontSize: 14,
     color: MyTheme.colors.red,

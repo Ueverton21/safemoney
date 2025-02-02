@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { MyTheme } from "../Theme";
-import { InputLogin } from "@/components/Inputs/InputLogin";
+import { Input } from "@/components/Inputs/Input";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { RootStackList } from "@/routes/AppStacks";
@@ -65,7 +65,7 @@ export default function Create() {
       </View>
       <View style={styles.name}>
         <View style={{ width: "48%" }}>
-          <InputLogin
+          <Input
             setValue={setName}
             value={name}
             placeholder={language?.Create.Name}
@@ -73,24 +73,24 @@ export default function Create() {
         </View>
         <View style={{ marginHorizontal: "2%" }}></View>
         <View style={{ width: "48%" }}>
-          <InputLogin
+          <Input
             setValue={setLastName}
             value={lastName}
             placeholder={language?.Create.LastName}
           />
         </View>
       </View>
-      <InputLogin
+      <Input
         setValue={setEmail}
         value={email}
         placeholder={language?.Login.FieldEmail}
       />
-      <InputLogin
+      <Input
         setValue={setPassword}
         value={password}
         placeholder={language?.Login.Password}
+        message={error}
       />
-      <ErrorMessage message={error} />
       <View style={{ marginTop: 10 }}></View>
       <ButtonSubmit
         activeOpacity={0.7}

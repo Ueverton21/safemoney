@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { MyTheme } from "../Theme";
-import { InputLogin } from "@/components/Inputs/InputLogin";
+import { Input } from "@/components/Inputs/Input";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Feather } from "@expo/vector-icons";
 
@@ -81,18 +81,18 @@ export default function Login({ navigation }: Props) {
           style={{ height: 80, marginBottom: 60 }}
         />
       </View>
-      <InputLogin
+      <Input
         value={email}
         setValue={setEmail}
         placeholder={language?.Login.FieldEmail}
       />
-      <InputLogin
+      <Input
         secureTextEntry={true}
         value={password}
         setValue={setPassword}
         placeholder={language?.Login.Password}
+        message={error}
       />
-      <ErrorMessage message={error} />
       <View style={{ marginTop: 10 }}></View>
       <ButtonSubmit
         loading={loading}
