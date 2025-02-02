@@ -12,14 +12,30 @@ type LoginLanguange = {
 type CreateLanguage = {
   Name: string;
   LastName: string;
+  HaveAccount: string;
+};
+type LanguageOption = {
+  Name: string;
+  Acronym: string;
+};
+
+type AuthErrors = {
+  InvalidCredentials: string;
+  InvalidEmail: string;
 };
 
 export type Language = {
+  SelectLanguage: Array<LanguageOption>;
+  AuthErrors: AuthErrors;
+  Name: string;
   Login: LoginLanguange;
   Create: CreateLanguage;
 };
 
-export function selectLanguage(language: string): Language {
+export function selectLanguage(language: string | null): Language {
+  if (language === null) {
+    return portuguese;
+  }
   switch (language) {
     case "pt":
       return portuguese;

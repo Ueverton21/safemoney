@@ -1,4 +1,23 @@
 {
+  "Name": "pt",
+  "SelectLanguage": [
+    {
+      "Name": "Português",
+      "Acronym": "pt"
+    },
+    {
+      "Name": "Inglês",
+      "Acronym": "en"
+    },
+    {
+      "Name": "Espanhol",
+      "Acronym": "es"
+    }
+  ],
+  "AuthErrors": {
+    "InvalidCredentials": "Email ou senha incorretos.",
+    "InvalidEmail": "Email inválido."
+  },
   "Login": {
     "FieldEmail": "Email",
     "Password": "Senha",
@@ -7,6 +26,7 @@
   },
   "Create": {
     "Name": "Nome",
-    "LastName": "Sobrenome"
+    "LastName": "Sobrenome",
+    "HaveAccount": "Já tenho conta"
   }
 }
