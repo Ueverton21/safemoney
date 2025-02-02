@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MyTheme } from "../screens/Theme";
@@ -7,6 +7,7 @@ import Login from "../screens/Login";
 import Create from "@/screens/Create";
 import AppTabs from "@/routes/AppTabs";
 import { userIsAuthenticated } from "@/firebase/auth/FirebaseAuth";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 export type RootStackList = {
   Login: undefined;
@@ -16,27 +17,22 @@ export type RootStackList = {
 
 export default function AppStack() {
   const Stack = createNativeStackNavigator<RootStackList>();
-  const [userIsLogged, setUserLogged] = useState<boolean>(false);
+  const language = useLanguageStore();
 
   useEffect(() => {
-    async function loading() {
-      var isLogged = await userIsAuthenticated();
-      setUserLogged(isLogged);
-    }
-    loading();
+    //Inicializar
+    language.getLanguage();
   }, []);
 
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {userIsLogged ? (
-          <Stack.Screen name="Tabs" component={AppTabs} />
-        ) : (
-          <>
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Create" component={Create} />
-          </>
-        )}
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Login"
+      >
+        <Stack.Screen name="Tabs" component={AppTabs} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Create" component={Create} />
       </Stack.Navigator>
     </NavigationContainer>
   );

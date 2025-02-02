@@ -5,18 +5,21 @@ import {
   Text,
   TouchableOpacityProps,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 
 type ButtonProps = TouchableOpacityProps & {
   text: string;
   backgroundTranspatent?: boolean;
   color: string;
+  loading?: boolean;
 };
 
 export function ButtonSubmit({
   text,
   backgroundTranspatent,
   color,
+  loading = false,
   ...rest
 }: ButtonProps) {
   return (
@@ -31,14 +34,18 @@ export function ButtonSubmit({
       ]}
       {...rest}
     >
-      <Text style={styles.text}>{text}</Text>
+      {loading ? (
+        <ActivityIndicator color={MyTheme.colors.white} size={16} />
+      ) : (
+        <Text style={styles.text}>{text}</Text>
+      )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 8,
     height: 56,
     backgroundColor: MyTheme.colors.primary,

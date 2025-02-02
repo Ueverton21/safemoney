@@ -1,17 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { MyTheme } from "../Theme";
 import { InputLogin } from "@/components/Inputs/InputLogin";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { RootStackList } from "@/routes/AppStacks";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ErrorMessage } from "@/components/Errors/ErrorMessage";
+import { createUser } from "@/firebase/auth/FirebaseAuth";
+import { ToAddUser } from "@/firebase/firestore/Firestore";
+import { FirebaseError } from "firebase/app";
+import { useLanguageStore } from "@/stores/LanguageStore";
+import { AuthErrors } from "@/firebase/AuthErrors";
 
 const icon = require("@/assets/icon_light.png");
 
+type StackScreenNavigationProp = NativeStackNavigationProp<
+  RootStackList,
+  "Create"
+>;
+
 export default function Create() {
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigation = useNavigation<StackScreenNavigationProp>();
+  const { language } = useLanguageStore();
+
+  async function handleCreate() {
+    try {
+      const user = await createUser(email, password);
+
+      await ToAddUser(name, lastName, email);
+
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Tabs" }],
+        })
+      );
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        var authErrors = new AuthErrors();
+        setError(authErrors.parseError(language!, error.code));
+      } else {
+        setError("Ocorreu um erro inesperado.");
+      }
+    }
+  }
+
   return (
     <View
       style={{
         flex: 1,
-        paddingTop: 160,
+        paddingTop: 140,
         paddingHorizontal: 20,
       }}
     >
@@ -20,27 +65,45 @@ export default function Create() {
       </View>
       <View style={styles.name}>
         <View style={{ width: "48%" }}>
-          <InputLogin placeholder="Nome" />
+          <InputLogin
+            setValue={setName}
+            value={name}
+            placeholder={language?.Create.Name}
+          />
         </View>
         <View style={{ marginHorizontal: "2%" }}></View>
         <View style={{ width: "48%" }}>
-          <InputLogin placeholder="Sobrenome" />
+          <InputLogin
+            setValue={setLastName}
+            value={lastName}
+            placeholder={language?.Create.LastName}
+          />
         </View>
       </View>
-
-      <InputLogin placeholder="Email" />
-      <InputLogin placeholder="Senha" />
-      <View style={{ marginTop: 20 }}></View>
+      <InputLogin
+        setValue={setEmail}
+        value={email}
+        placeholder={language?.Login.FieldEmail}
+      />
+      <InputLogin
+        setValue={setPassword}
+        value={password}
+        placeholder={language?.Login.Password}
+      />
+      <ErrorMessage message={error} />
+      <View style={{ marginTop: 10 }}></View>
       <ButtonSubmit
         activeOpacity={0.7}
-        text="Criar"
+        text={language?.Login.Create!}
+        onPress={handleCreate}
         color={MyTheme.colors.primary}
       />
       <View style={{ marginTop: 20 }}></View>
       <ButtonSubmit
         activeOpacity={0.5}
-        text="Já tenho conta"
+        text={language?.Create.HaveAccount!}
         backgroundTranspatent
+        onPress={() => navigation.push("Login")}
         color={MyTheme.colors.primary}
       />
     </View>
