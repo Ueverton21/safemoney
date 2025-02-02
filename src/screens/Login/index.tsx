@@ -19,6 +19,7 @@ import { useLanguageStore } from "@/stores/LanguageStore";
 const icon = require("@/assets/icon_light.png");
 import { Picker } from "@react-native-picker/picker";
 import { AuthErrors } from "@/firebase/AuthErrors";
+import { MyPicker } from "@/components/Picker/MyPicker";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
@@ -31,6 +32,10 @@ export default function Login({ navigation }: Props) {
   const [visibleLanguageSelect, setVisibleLanguageSelect] = useState(false);
 
   const { language, setLanguage } = useLanguageStore();
+
+  const listLanguage = language?.SelectLanguage.map((lang) => {
+    return { name: lang.Name, value: lang.Acronym };
+  });
 
   useEffect(() => {
     async function initial() {
@@ -109,34 +114,15 @@ export default function Login({ navigation }: Props) {
         backgroundTranspatent
         color={MyTheme.colors.primary}
       />
-      {visibleLanguageSelect && (
-        <Picker
-          style={{ marginTop: -20 }}
-          itemStyle={{ color: MyTheme.colors.white }}
-          selectedValue={language?.Name}
-          onValueChange={(value) => {
-            setLanguage(value);
-            setVisibleLanguageSelect(false);
-          }}
-        >
-          {language?.SelectLanguage.map((option) => (
-            <Picker.Item
-              key={option.Name}
-              label={option.Name}
-              value={option.Acronym}
-            />
-          ))}
-        </Picker>
-      )}
 
-      <View style={{ alignItems: "center", marginTop: 16 }}>
-        <TouchableOpacity onPress={() => setVisibleLanguageSelect(true)}>
+      <MyPicker onValueChange={(opt) => setLanguage(opt)} list={listLanguage}>
+        <View style={{ alignItems: "center", marginTop: 16 }}>
           <Feather name="globe" color={MyTheme.colors.white} size={24} />
-        </TouchableOpacity>
-        <Text style={{ color: MyTheme.colors.white }}>
-          {language?.Name.toUpperCase()}
-        </Text>
-      </View>
+          <Text style={{ color: MyTheme.colors.white }}>
+            {language?.Name.toUpperCase()}
+          </Text>
+        </View>
+      </MyPicker>
     </View>
   ) : (
     <ScreenLoading />
