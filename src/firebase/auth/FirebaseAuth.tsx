@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword,
   User,
   onAuthStateChanged,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseApp } from "../config";
 
@@ -18,15 +19,13 @@ export async function userIsAuthenticated(): Promise<boolean> {
         resolve(false);
       }
     });
-
-    // Lembre-se de limpar o listener após o uso
     return unsubscribe;
   });
 }
 export async function authenticate(
   email: string,
   password: string
-): Promise<User | undefined> {
+): Promise<User> {
   const auth = getAuth(firebaseApp);
 
   try {
@@ -37,6 +36,37 @@ export async function authenticate(
     );
     return userCredential.user;
   } catch (error) {
-    return undefined;
+    throw error;
   }
+}
+
+export async function createUser(
+  email: string,
+  password: string
+): Promise<User> {
+  const auth = getAuth(firebaseApp);
+
+  try {
+    var userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function logout() {
+  const auth = getAuth(firebaseApp);
+
+  auth
+    .signOut()
+    .then(() => {
+      console.log("Deslogado");
+    })
+    .catch((error) => {
+      console.log("Error no logout");
+    });
 }
