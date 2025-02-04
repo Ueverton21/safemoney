@@ -12,6 +12,7 @@ type ButtonProps = TouchableOpacityProps & {
   text: string;
   backgroundTranspatent?: boolean;
   color: string;
+  smallHeight?: boolean;
   loading?: boolean;
 };
 
@@ -20,6 +21,7 @@ export function ButtonSubmit({
   backgroundTranspatent,
   color,
   loading = false,
+  smallHeight = false,
   ...rest
 }: ButtonProps) {
   return (
@@ -30,6 +32,7 @@ export function ButtonSubmit({
           backgroundColor: backgroundTranspatent ? "rgba(0,0,0,0)" : color,
           borderColor: backgroundTranspatent ? color : "rgba(0,0,0,0)",
           borderWidth: backgroundTranspatent ? 2 : 0,
+          height: smallHeight ? 'auto' : 42
         },
       ]}
       {...rest}
