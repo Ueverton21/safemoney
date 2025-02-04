@@ -1,5 +1,5 @@
 import { MyTheme } from "@/screens/Theme";
-import React, { Children, Component, useState } from "react";
+import React, { Children, Component, ReactNode, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 
 type PickerProps = {
   list?: { name: string; value: string }[];
-  children: React.ReactNode;
+  children: ReactNode;
   onValueChange: (value: string) => void;
 };
 

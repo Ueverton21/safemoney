@@ -2,6 +2,7 @@ import spanish from "./language_es.json";
 import portuguese from "./language_pt.json";
 import english from "./language_en.json";
 
+//TELAS LANGUAGES
 type LoginLanguange = {
   FieldEmail: string;
   Password: string;
@@ -14,11 +15,19 @@ type CreateLanguage = {
   LastName: string;
   HaveAccount: string;
 };
+
+type HomeLanguage = {
+  Balance: string;
+  Monthly: LanguageOption[];
+};
+
+//General
 type LanguageOption = {
   Name: string;
   Acronym: string;
 };
 
+//Errors
 type AuthErrors = {
   InvalidCredentials: string;
   InvalidEmail: string;
@@ -30,6 +39,7 @@ export type Language = {
   Name: string;
   Login: LoginLanguange;
   Create: CreateLanguage;
+  Home: HomeLanguage;
 };
 
 export function selectLanguage(language: string | null): Language {

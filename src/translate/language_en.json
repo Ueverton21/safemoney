@@ -28,5 +28,58 @@
     "Name": "Name",
     "LastName": "Lastname",
     "HaveAccount": "I already have an account"
+  },
+  "Home": {
+    "Balance": "Balance",
+    "Monthly": [
+      {
+        "Name": "January",
+        "Acronym": "JAN"
+      },
+      {
+        "Name": "February",
+        "Acronym": "FEB"
+      },
+      {
+        "Name": "March",
+        "Acronym": "MAR"
+      },
+      {
+        "Name": "April",
+        "Acronym": "APR"
+      },
+      {
+        "Name": "May",
+        "Acronym": "MAY"
+      },
+      {
+        "Name": "June",
+        "Acronym": "JUN"
+      },
+      {
+        "Name": "July",
+        "Acronym": "JUL"
+      },
+      {
+        "Name": "August",
+        "Acronym": "AUG"
+      },
+      {
+        "Name": "September",
+        "Acronym": "SEP"
+      },
+      {
+        "Name": "October",
+        "Acronym": "OCT"
+      },
+      {
+        "Name": "November",
+        "Acronym": "NOV"
+      },
+      {
+        "Name": "December",
+        "Acronym": "DEC"
+      }
+    ]
   }
 }

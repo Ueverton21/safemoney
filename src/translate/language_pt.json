@@ -28,5 +28,58 @@
     "Name": "Nome",
     "LastName": "Sobrenome",
     "HaveAccount": "Já tenho conta"
+  },
+  "Home": {
+    "Balance": "Saldo",
+    "Monthly": [
+      {
+        "Name": "Janeiro",
+        "Acronym": "JAN"
+      },
+      {
+        "Name": "Fevereiro",
+        "Acronym": "FEV"
+      },
+      {
+        "Name": "Março",
+        "Acronym": "MAR"
+      },
+      {
+        "Name": "Abril",
+        "Acronym": "ABR"
+      },
+      {
+        "Name": "Maio",
+        "Acronym": "MAI"
+      },
+      {
+        "Name": "Junho",
+        "Acronym": "JUN"
+      },
+      {
+        "Name": "Julho",
+        "Acronym": "JUL"
+      },
+      {
+        "Name": "Agosto",
+        "Acronym": "AGO"
+      },
+      {
+        "Name": "Setembro",
+        "Acronym": "SET"
+      },
+      {
+        "Name": "Outubro",
+        "Acronym": "OUT"
+      },
+      {
+        "Name": "Novembro",
+        "Acronym": "NOV"
+      },
+      {
+        "Name": "Dezembro",
+        "Acronym": "DEZ"
+      }
+    ]
   }
 }
