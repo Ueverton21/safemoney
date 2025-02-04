@@ -81,5 +81,8 @@
         "Acronym": "DEC"
       }
     ]
+  },
+  "Settings": {
+    "Exit": "Exit"
   }
 }

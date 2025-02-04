@@ -22,6 +22,7 @@ import { AuthErrors } from "@/firebase/AuthErrors";
 import { MyPicker } from "@/components/Picker/MyPicker";
 import { useUserStore } from "@/stores/UserStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SelectLanguage } from "@/components/Picker/SelectLanguage";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
@@ -31,14 +32,8 @@ export default function Login({ navigation }: Props) {
   const [pageLoading, setPageLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
-  const [visibleLanguageSelect, setVisibleLanguageSelect] = useState(false);
 
-  const { language, setLanguage } = useLanguageStore();
-
-  const listLanguage = language?.SelectLanguage.map((lang) => {
-    return { name: lang.Name, value: lang.Acronym };
-  });
-
+  const { language } = useLanguageStore();
   const { getUser } = useUserStore();
 
   useEffect(() => {
@@ -123,15 +118,7 @@ export default function Login({ navigation }: Props) {
         backgroundTranspatent
         color={MyTheme.colors.primary}
       />
-
-      <MyPicker onValueChange={(opt) => setLanguage(opt)} list={listLanguage}>
-        <View style={{ alignItems: "center", marginTop: 16 }}>
-          <Feather name="globe" color={MyTheme.colors.white} size={24} />
-          <Text style={{ color: MyTheme.colors.white }}>
-            {language?.Name.toUpperCase()}
-          </Text>
-        </View>
-      </MyPicker>
+      <SelectLanguage />
     </View>
   ) : (
     <ScreenLoading />

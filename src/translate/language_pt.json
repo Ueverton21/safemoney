@@ -81,5 +81,8 @@
         "Acronym": "DEZ"
       }
     ]
+  },
+  "Settings": {
+    "Exit": "Sair"
   }
 }

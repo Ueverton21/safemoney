@@ -81,5 +81,8 @@
         "Acronym": "DIC"
       }
     ]
+  },
+  "Settings": {
+    "Exit": "Salir"
   }
 }

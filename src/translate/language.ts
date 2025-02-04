@@ -21,6 +21,10 @@ type HomeLanguage = {
   Monthly: LanguageOption[];
 };
 
+type SettingsLanguage = {
+  Exit: string;
+};
+
 //General
 type LanguageOption = {
   Name: string;
@@ -40,6 +44,7 @@ export type Language = {
   Login: LoginLanguange;
   Create: CreateLanguage;
   Home: HomeLanguage;
+  Settings: SettingsLanguage;
 };
 
 export function selectLanguage(language: string | null): Language {
