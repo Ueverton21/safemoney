@@ -8,7 +8,7 @@ import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ErrorMessage } from "@/components/Errors/ErrorMessage";
 import { createUser } from "@/firebase/auth/FirebaseAuth";
-import { ToAddUser } from "@/firebase/firestore/Firestore";
+import { ToAddUser } from "@/firebase/firestore/FirestoreUser";
 import { FirebaseError } from "firebase/app";
 import { useLanguageStore } from "@/stores/LanguageStore";
 import { AuthErrors } from "@/firebase/AuthErrors";

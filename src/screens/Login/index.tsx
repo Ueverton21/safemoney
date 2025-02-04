@@ -20,6 +20,8 @@ const icon = require("@/assets/icon_light.png");
 import { Picker } from "@react-native-picker/picker";
 import { AuthErrors } from "@/firebase/AuthErrors";
 import { MyPicker } from "@/components/Picker/MyPicker";
+import { useUserStore } from "@/stores/UserStore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
@@ -37,11 +39,16 @@ export default function Login({ navigation }: Props) {
     return { name: lang.Name, value: lang.Acronym };
   });
 
+  const { getUser } = useUserStore();
+
   useEffect(() => {
     async function initial() {
       var isLoggedUser = await userIsAuthenticated();
 
       if (isLoggedUser) {
+        const emailStorage = await AsyncStorage.getItem("@email");
+        getUser(emailStorage!);
+
         navigation.navigate("Tabs");
       } else {
         setPageLoading(false);
@@ -55,6 +62,8 @@ export default function Login({ navigation }: Props) {
       setLoading(true);
       var auth = await authenticate(email, password);
       if (auth) {
+        await AsyncStorage.setItem("@email", email);
+        getUser(email);
         navigation.navigate("Tabs");
       } else {
         console.log("CREDENCIAIS INVÁLIDAS");
