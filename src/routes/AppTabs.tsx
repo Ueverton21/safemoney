@@ -13,6 +13,7 @@ import ToAdd from "@/screens/ToAdd";
 import { Platform, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackList } from "./AppStacks";
+import NewLittleBox from "@/screens/NewLittleBox";
 
 export type RootTabsList = {
   Home: undefined;
@@ -20,6 +21,7 @@ export type RootTabsList = {
   Groups: undefined;
   Settings: undefined;
   ToAdd: undefined;
+  NewLittleBox: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackList, "Tabs">;
@@ -33,7 +35,7 @@ export default function AppTabs(props: Props) {
         headerShown: false,
         tabBarActiveTintColor: "#1b1b1b",
         tabBarInactiveTintColor: "#FFF",
-        tabBarLabel: () => null,
+        tabBarShowLabel: false,
         tabBarStyle: {
           paddingTop: 10,
           height: Platform.OS === "android" ? 60 : 80,
@@ -99,6 +101,15 @@ export default function AppTabs(props: Props) {
           tabBarIcon({ color }) {
             return <Feather color={color} size={28} name="settings" />;
           },
+        }}
+      />
+      <Tab.Screen
+        name="NewLittleBox"
+        component={NewLittleBox}
+        options={{
+          tabBarStyle: {
+            display: 'none'
+          }
         }}
       />
     </Tab.Navigator>

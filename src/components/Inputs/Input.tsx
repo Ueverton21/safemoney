@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     height: 52,
     backgroundColor: MyTheme.colors.background_dark,
     borderRadius: 8,
-    paddingHorizontal: 15,
+    paddingLeft: 15,
     alignItems: 'center',
   },
   input: {
