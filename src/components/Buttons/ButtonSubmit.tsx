@@ -32,7 +32,7 @@ export function ButtonSubmit({
           backgroundColor: backgroundTranspatent ? "rgba(0,0,0,0)" : color,
           borderColor: backgroundTranspatent ? color : "rgba(0,0,0,0)",
           borderWidth: backgroundTranspatent ? 2 : 0,
-          height: smallHeight ? 'auto' : 42
+          height: smallHeight ? "auto" : 42,
         },
       ]}
       {...rest}
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 8,
     height: 56,
-    backgroundColor: MyTheme.colors.primary,
     alignItems: "center",
     justifyContent: "center",
   },

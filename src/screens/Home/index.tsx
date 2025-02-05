@@ -62,7 +62,12 @@ export default function Home() {
           </View>
         </MyPicker>
         <View style={styles.boxMoviment}>
-          <View style={styles.movimentItem}>
+          <View
+            style={[
+              styles.movimentItem,
+              { borderColor: MyTheme.colors.primary },
+            ]}
+          >
             <Text
               style={[styles.movimentTitle, { color: MyTheme.colors.primary }]}
             >
@@ -81,7 +86,9 @@ export default function Home() {
               />
             </View>
           </View>
-          <View style={styles.movimentItem}>
+          <View
+            style={[styles.movimentItem, { borderColor: MyTheme.colors.red }]}
+          >
             <Text
               style={[
                 styles.movimentTitle,
@@ -99,7 +106,7 @@ export default function Home() {
               <Text
                 style={[styles.movimentText, { color: MyTheme.colors.red }]}
               >
-                R$ 2700,00
+                R$ -2700,00
               </Text>
             </View>
           </View>

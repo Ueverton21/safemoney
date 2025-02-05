@@ -86,6 +86,7 @@ export default function Create() {
         placeholder={language?.Login.FieldEmail}
       />
       <Input
+        secureTextEntry={true}
         setValue={setPassword}
         value={password}
         placeholder={language?.Login.Password}

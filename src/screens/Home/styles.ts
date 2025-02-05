@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   movimentItem: {
-    backgroundColor: MyTheme.colors.secondary,
+    borderWidth: 2,
     paddingVertical: 6,
     paddingHorizontal: 10,
     width: "44%",
