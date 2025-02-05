@@ -11,6 +11,7 @@ import { MyPicker } from "@/components/Picker/MyPicker";
 import { useLanguageStore } from "@/stores/LanguageStore";
 import { MyTheme } from "../Theme";
 import { SelectLanguage } from "@/components/Picker/SelectLanguage";
+import { ScreenBackground } from "@/components/Background/ScreenBackground";
 
 type StackScreenNavigationProp = NativeStackNavigationProp<
   RootStackList,
@@ -31,12 +32,12 @@ export default function Settings() {
     );
   }
   return (
-    <View style={styles.main}>
+    <ScreenBackground title="Configurações">
       <TouchableOpacity style={styles.button} onPress={() => executeLogout()}>
         <Feather color="#FFF" name="log-out" size={20} />
         <Text style={styles.text}>{language?.Settings.Exit}</Text>
       </TouchableOpacity>
       <SelectLanguage />
-    </View>
+    </ScreenBackground>
   );
 }

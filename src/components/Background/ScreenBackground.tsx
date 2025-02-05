@@ -4,18 +4,14 @@ import { SafeAreaView, View, StyleSheet, Text } from "react-native";
 type ScreenBackgroundProps = {
   children: React.ReactNode;
   title: string;
-}
+};
 export function ScreenBackground({ children, title }: ScreenBackgroundProps) {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        {title}
-      </Text>
-      <View style={styles.content}>
-        {children}
-      </View>
+      <Text style={styles.title}>{title}</Text>
+      <View style={styles.content}>{children}</View>
     </SafeAreaView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -26,15 +22,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 32,
     color: MyTheme.colors.white,
-    textAlign: 'center',
+    textAlign: "center",
   },
   content: {
     flex: 1,
     paddingTop: 50,
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingBottom: 10,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
