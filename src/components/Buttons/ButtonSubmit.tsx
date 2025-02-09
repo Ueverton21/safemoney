@@ -1,5 +1,5 @@
 import { MyTheme } from "@/screens/Theme";
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -9,11 +9,12 @@ import {
 } from "react-native";
 
 type ButtonProps = TouchableOpacityProps & {
-  text: string;
+  text?: string;
   backgroundTranspatent?: boolean;
   color: string;
   smallHeight?: boolean;
   loading?: boolean;
+  children?: ReactNode;
 };
 
 export function ButtonSubmit({
@@ -22,6 +23,7 @@ export function ButtonSubmit({
   color,
   loading = false,
   smallHeight = false,
+  children,
   ...rest
 }: ButtonProps) {
   return (
@@ -39,6 +41,8 @@ export function ButtonSubmit({
     >
       {loading ? (
         <ActivityIndicator color={MyTheme.colors.white} size={16} />
+      ) : children ? (
+        <>{children}</>
       ) : (
         <Text style={styles.text}>{text}</Text>
       )}
@@ -48,8 +52,7 @@ export function ButtonSubmit({
 
 const styles = StyleSheet.create({
   button: {
-    marginTop: 10,
-    borderRadius: 8,
+    borderRadius: 12,
     height: 56,
     alignItems: "center",
     justifyContent: "center",
