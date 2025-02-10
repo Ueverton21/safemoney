@@ -107,9 +107,8 @@ export default function AppTabs(props: Props) {
         name="NewLittleBox"
         component={NewLittleBox}
         options={{
-          tabBarStyle: {
-            display: 'none'
-          }
+          tabBarButton: () => null,
+          tabBarStyle: { display: "none" },
         }}
       />
     </Tab.Navigator>
