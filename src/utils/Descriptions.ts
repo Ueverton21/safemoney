@@ -63,3 +63,36 @@ export const COST_DESCRIPTION = [
     icon: ''
   }
 ];
+
+export const LITTLE_BOX_DESCRIPTION = [
+  {
+    id: 1,
+    title: 'pagamento do aluguel',
+    icon: ''
+  },
+  {
+    id: 2,
+    title: 'compra de mercado',
+    icon: ''
+  },
+  {
+    id: 3,
+    title: 'fatura',
+    icon: ''
+  },
+  {
+    id: 4,
+    title: 'compra de objeto',
+    icon: ''
+  },
+  {
+    id: 5,
+    title: 'reserva de emergência',
+    icon: ''
+  },
+  {
+    id: 6,
+    title: 'contas da casa',
+    icon: ''
+  }
+];

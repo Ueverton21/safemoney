@@ -9,7 +9,7 @@ import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Input } from "@/components/Inputs/Input";
 import { ArrowButton } from "@/components/Buttons/ArrowButton";
 import { ListButton } from "@/components/Buttons/ListButton";
-import { COST_DESCRIPTION } from "@/utils/Descriptions";
+import { LITTLE_BOX_DESCRIPTION } from "@/utils/Descriptions";
 
 import { styles } from "./styles";
 
@@ -47,7 +47,7 @@ export default function NewLittleBox() {
                   contentContainerStyle={{ paddingVertical: 10 }}
                 >
                   {
-                    COST_DESCRIPTION.map((item) => {
+                    LITTLE_BOX_DESCRIPTION.map((item) => {
                       return (
                         <ListButton key={item.id} title={item.title} />
                       )
