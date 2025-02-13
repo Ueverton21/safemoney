@@ -21,7 +21,6 @@ export type RootTabsList = {
   Groups: undefined;
   Settings: undefined;
   ToAdd: undefined;
-  NewLittleBox: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackList, "Tabs">;
@@ -103,14 +102,7 @@ export default function AppTabs(props: Props) {
           },
         }}
       />
-      <Tab.Screen
-        name="NewLittleBox"
-        component={NewLittleBox}
-        options={{
-          tabBarButton: () => null,
-          tabBarStyle: { display: "none" },
-        }}
-      />
+
     </Tab.Navigator>
   );
 }

@@ -7,6 +7,9 @@ import Login from "@/screens/Login";
 import Create from "@/screens/Create";
 import AppTabs from "@/routes/AppTabs";
 import Profile from "@/screens/Profile";
+import NewLittleBox from "@/screens/NewLittleBox";
+import NewGroup from "@/screens/NewGroup";
+
 import { useLanguageStore } from "@/stores/LanguageStore";
 
 export type RootStackList = {
@@ -14,6 +17,8 @@ export type RootStackList = {
   Create: undefined;
   Tabs: undefined;
   Profile: undefined;
+  NewLittleBox: undefined;
+  NewGroup: undefined;
 };
 
 export default function AppStack() {
@@ -35,6 +40,8 @@ export default function AppStack() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Create" component={Create} />
+        <Stack.Screen name="NewLittleBox" component={NewLittleBox} />
+        <Stack.Screen name="NewGroup" component={NewGroup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

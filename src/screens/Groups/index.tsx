@@ -5,18 +5,19 @@ import { Feather } from "@expo/vector-icons";
 import { MyTheme } from "../Theme";
 import { styles } from "./styles";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
-import { RootTabsList } from "@/routes/AppTabs";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { RootStackList } from "@/routes/AppStacks";
+import { useNavigation } from "@react-navigation/native";
 
-type Props = NativeStackScreenProps<RootTabsList, "Groups">;
+type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
-export default function LittleBox({ navigation }: Props) {
+export default function LittleBox() {
 
   const [visibleBalance, setVisibleBalance] = React.useState(false);
 
-
+  const navigation = useNavigation<StackScreenNavigationProp>()
 
   function handleGoNewGroup() {
     navigation.navigate('NewGroup');
