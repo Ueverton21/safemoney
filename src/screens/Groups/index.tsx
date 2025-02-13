@@ -1,14 +1,48 @@
+import { ScreenBackground } from "@/components/Background/ScreenBackground";
 import React from "react";
 import { Text, View } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { MyTheme } from "../Theme";
+import { styles } from "./styles";
+import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
+import { RootTabsList } from "@/routes/AppTabs";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Panel } from "@/components/panel";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-export default function Groups() {
+type Props = NativeStackScreenProps<RootTabsList, "Groups">;
+
+export default function LittleBox({ navigation }: Props) {
+
+  const [visibleBalance, setVisibleBalance] = React.useState(false);
+
+
+
+  function handleGoNewGroup() {
+    navigation.navigate('NewGroup');
+  }
+
   return (
-    <View>
-      <Text>GROUPS</Text>
-      <Text>GROUPS</Text>
-      <Text>GROUPS</Text>
-      <Text>GROUPS</Text>
-      <Text>GROUPS</Text>
-    </View>
+    <ScreenBackground
+      title="Grupos"
+    >
+      <View style={styles.container}>
+        <Panel
+          name="Carro"
+          balance="7000,00"
+          progress={25}
+        >
+          <FontAwesome6 name="key" size={24} color={MyTheme.colors.white} />
+        </Panel>
+        <Panel
+          name="Fatura"
+          balance="1000,00"
+          progress={80}
+        >
+          <FontAwesome6 name="credit-card" size={24} color={MyTheme.colors.white} />
+        </Panel>
+        <ButtonSubmit text="Novo grupo" color={MyTheme.colors.secondary} onPress={handleGoNewGroup} />
+      </View>
+    </ScreenBackground>
   );
 }
