@@ -6,16 +6,18 @@ import { MyTheme } from "../Theme";
 import { styles } from "./styles";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { useNavigation } from "@react-navigation/native";
-import { RootTabsList } from "@/routes/AppTabs";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackList } from "@/routes/AppStacks";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-type Props = NativeStackScreenProps<RootTabsList, "LittleBox">;
+type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
-export default function LittleBox({ navigation }: Props) {
+export default function LittleBox() {
 
   const [visibleBalance, setVisibleBalance] = React.useState(false);
+
+  const navigation = useNavigation<StackScreenNavigationProp>();
 
 
 
