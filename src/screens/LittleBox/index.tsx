@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
@@ -23,6 +22,10 @@ export default function LittleBox() {
 
   function handleGoNewLittleBox() {
     navigation.navigate('NewLittleBox');
+  }
+
+  function handleGoLittleBoxDetails() {
+    navigation.navigate('LittleBoxDetails');
   }
 
   return (
@@ -60,16 +63,13 @@ export default function LittleBox() {
         name="Carro"
         balance="7000,00"
         progress={25}
-      >
-        <FontAwesome6 name="key" size={24} color={MyTheme.colors.white} />
-      </Panel>
+        onPress={handleGoLittleBoxDetails}
+      />
       <Panel
         name="Fatura"
         balance="1000,00"
         progress={80}
-      >
-        <FontAwesome6 name="credit-card" size={24} color={MyTheme.colors.white} />
-      </Panel>
+      />
     </ScreenBackground>
   );
 }

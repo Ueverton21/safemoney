@@ -9,6 +9,7 @@ import AppTabs from "@/routes/AppTabs";
 import Profile from "@/screens/Profile";
 import NewLittleBox from "@/screens/NewLittleBox";
 import NewGroup from "@/screens/NewGroup";
+import LittleBoxDetails from "@/screens/LittleBoxDetails";
 
 import { useLanguageStore } from "@/stores/LanguageStore";
 
@@ -19,6 +20,7 @@ export type RootStackList = {
   Profile: undefined;
   NewLittleBox: undefined;
   NewGroup: undefined;
+  LittleBoxDetails: undefined;
 };
 
 export default function AppStack() {
@@ -42,6 +44,7 @@ export default function AppStack() {
         <Stack.Screen name="Create" component={Create} />
         <Stack.Screen name="NewLittleBox" component={NewLittleBox} />
         <Stack.Screen name="NewGroup" component={NewGroup} />
+        <Stack.Screen name="LittleBoxDetails" component={LittleBoxDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );
