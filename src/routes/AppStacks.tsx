@@ -12,6 +12,7 @@ import NewGroup from "@/screens/NewGroup";
 import LittleBoxDetails from "@/screens/LittleBoxDetails";
 
 import { useLanguageStore } from "@/stores/LanguageStore";
+import GroupDetails from "@/screens/GroupDetails";
 
 export type RootStackList = {
   Login: undefined;
@@ -21,6 +22,7 @@ export type RootStackList = {
   NewLittleBox: undefined;
   NewGroup: undefined;
   LittleBoxDetails: undefined;
+  GroupDetails: undefined;
 };
 
 export default function AppStack() {
@@ -45,6 +47,7 @@ export default function AppStack() {
         <Stack.Screen name="NewLittleBox" component={NewLittleBox} />
         <Stack.Screen name="NewGroup" component={NewGroup} />
         <Stack.Screen name="LittleBoxDetails" component={LittleBoxDetails} />
+        <Stack.Screen name="GroupDetails" component={GroupDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

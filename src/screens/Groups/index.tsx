@@ -22,6 +22,9 @@ export default function LittleBox() {
   function handleGoNewGroup() {
     navigation.navigate('NewGroup');
   }
+  function handleGoGroupDetails() {
+    navigation.navigate('GroupDetails');
+  }
 
   return (
     <ScreenBackground
@@ -32,6 +35,7 @@ export default function LittleBox() {
           name="Carro"
           balance="7000,00"
           progress={25}
+          onPress={handleGoGroupDetails}
         >
           <FontAwesome6 name="key" size={24} color={MyTheme.colors.white} />
         </Panel>
