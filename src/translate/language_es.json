@@ -84,5 +84,47 @@
   },
   "Settings": {
     "Exit": "Salir"
+  },
+  "LittleBox": {
+    "Title": "alcancías",
+    "Amount": "Total"
+  },
+  "Groups": {
+    "Title": "Grupos",
+    "NewGroup": "Nuevo grupo"
+  },
+  "NewLittleBox": {
+    "Title": "Nueva alcancías",
+    "Description": "descripción",
+    "Confirm": "Confirmar"
+  },
+  "NewGroup": {
+    "Title": "Nuevo grupo",
+    "Description": "descripción",
+    "Confirm": "Confirmar"
+  },
+  "LittleBoxDetails": {
+    "Goal": "meta",
+    "Entry": "Entrada",
+    "Expense": "Salida",
+    "ToSave": "Ahorrar",
+    "ToTakeOut": "Retirar"
+  },
+  "GroupDetails": {
+    "Goal": "meta",
+    "Entry": "Entrada",
+    "Expense": "Salida",
+    "ToSave": "Ahorrar",
+    "ToTakeOut": "Retirar",
+    "ParticipantsName": "Nombre del participante",
+    "value": "Valor",
+    "Responsible": "Responsable",
+    "Contributions": "Contribuciones"
+  },
+  "Components": {
+    "Until": "hasta el"
+  },
+  "CoinSymbol": {
+    "Symbol": "€"
   }
 }

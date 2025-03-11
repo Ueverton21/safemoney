@@ -84,5 +84,47 @@
   },
   "Settings": {
     "Exit": "Sair"
+  },
+  "LittleBox": {
+    "Title": "Caixinhas",
+    "Amount": "Total"
+  },
+  "Groups": {
+    "Title": "Grupos",
+    "NewGroup": "Novo grupo"
+  },
+  "NewLittleBox": {
+    "Title": "Nova Caixinha",
+    "Description": "descrição",
+    "Confirm": "Confirmar"
+  },
+  "NewGroup": {
+    "Title": "Novo Grupo",
+    "Description": "descrição",
+    "Confirm": "Confirmar"
+  },
+  "LittleBoxDetails": {
+    "Goal": "meta",
+    "Entry": "Entrada",
+    "Expense": "Saída",
+    "ToSave": "Guardar",
+    "ToTakeOut": "Retirar"
+  },
+  "GroupDetails": {
+    "Goal": "meta",
+    "Entry": "Entrada",
+    "Expense": "Saída",
+    "ToSave": "Guardar",
+    "ToTakeOut": "Retirar",
+    "ParticipantsName": "Nome do participante",
+    "value": "Valor",
+    "Responsible": "responsável",
+    "Contributions": "Contribuições"
+  },
+  "Components": {
+    "Until": "até"
+  },
+  "CoinSymbol": {
+    "Symbol": "R$"
   }
 }

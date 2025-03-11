@@ -2,7 +2,7 @@ import spanish from "./language_es.json";
 import portuguese from "./language_pt.json";
 import english from "./language_en.json";
 
-//TELAS LANGUAGES
+//SCREENS LANGUAGES
 type LoginLanguange = {
   FieldEmail: string;
   Password: string;
@@ -25,11 +25,63 @@ type SettingsLanguage = {
   Exit: string;
 };
 
+type LitleBoxLanguage = {
+  Title: string;
+  Amount: string;
+};
+
+type GroupsLanguage = {
+  Title: string;
+  NewGroup: string;
+};
+
+type NewLittleBoxLanguage = {
+  Title: string;
+  Description: string;
+  Confirm: string;
+};
+
+type NewGroupLanguage = {
+  Title: string;
+  Description: string;
+  Confirm: string;
+};
+
+type LittleBoxDetailsLanguage = {
+  Goal: string;
+  Entry: string;
+  Expense: string;
+  ToSave: string;
+  ToTakeOut: string;
+};
+
+type GroupDetailsLanguage = {
+  Goal: string;
+  Entry: string;
+  Expense: string;
+  ToSave: string;
+  ToTakeOut: string;
+  ParticipantsName: string;
+  value: string;
+  Responsible: string;
+  Contributions: string;
+};
+
+//COMPONENTS LANGUAGE
+
+type ComponentsLanguage = {
+  Until: string;
+};
+
 //General
 type LanguageOption = {
   Name: string;
   Acronym: string;
 };
+
+type CoinSymbol = {
+  Symbol: string;
+}
 
 //Errors
 type AuthErrors = {
@@ -45,6 +97,14 @@ export type Language = {
   Create: CreateLanguage;
   Home: HomeLanguage;
   Settings: SettingsLanguage;
+  LittleBox: LitleBoxLanguage;
+  Groups: GroupsLanguage;
+  NewLittleBox: NewLittleBoxLanguage;
+  NewGroup: NewGroupLanguage;
+  LittleBoxDetails: LittleBoxDetailsLanguage;
+  GroupDetails: GroupDetailsLanguage;
+  Components: ComponentsLanguage;
+  CoinSymbol: CoinSymbol;
 };
 
 export function selectLanguage(language: string | null): Language {

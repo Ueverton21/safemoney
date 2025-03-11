@@ -84,5 +84,47 @@
   },
   "Settings": {
     "Exit": "Exit"
+  },
+  "LittleBox": {
+    "Title": "Piggy Bank",
+    "Amount": "Amount"
+  },
+  "Groups": {
+    "Title": "Groups",
+    "NewGroup": "New group"
+  },
+  "NewLittleBox": {
+    "Title": "New piggy bank",
+    "Description": "description",
+    "Confirm": "Confirm"
+  },
+  "NewGroup": {
+    "Title": "New group",
+    "Description": "description",
+    "Confirm": "Confirm"
+  },
+  "LittleBoxDetails": {
+    "Goal": "goal",
+    "Entry": "Entry",
+    "Expense": "Expense",
+    "ToSave": "Save",
+    "ToTakeOut": "TakeOut"
+  },
+  "GroupDetails": {
+    "Goal": "goal",
+    "Entry": "Entry",
+    "Expense": "Expense",
+    "ToSave": "Save",
+    "ToTakeOut": "TakeOut",
+    "ParticipantsName": "Participant's name",
+    "value": "Value",
+    "Responsible": "Responsible",
+    "Contributions": "Contributions"
+  },
+  "Components": {
+    "Until": "unitil"
+  },
+  "CoinSymbol": {
+    "Symbol": "U$"
   }
 }

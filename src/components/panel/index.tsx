@@ -6,6 +6,7 @@ import { MyTheme } from "@/screens/Theme";
 import { styles } from "./styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 type PanelProps = TouchableOpacityProps & {
   name?: string;
@@ -15,6 +16,8 @@ type PanelProps = TouchableOpacityProps & {
 }
 export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {
   const [buttonDateSelected, setButtonDateSelected] = useState(false);
+
+  const { language } = useLanguageStore();
 
   return (
     <>
@@ -27,7 +30,7 @@ export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {
                 onPress={() => setButtonDateSelected(!buttonDateSelected)}
                 {...rest}>
                 <Text style={styles.date}>
-                  até: {date}
+                  {language?.Components.Until}: {date}
                 </Text>
                 <FontAwesome5
                   name={buttonDateSelected ? 'chevron-up' : 'chevron-down'}
@@ -39,7 +42,7 @@ export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {
             </View>
 
             <Text style={styles.balance}>
-              R$ {balance}
+              {language?.CoinSymbol.Symbol} {balance}
             </Text>
             <View style={styles.progressContainer}>
               <View style={[styles.progress, { width: `${progress}%` }]} />
@@ -55,7 +58,7 @@ export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {
             </View>
 
             <Text style={styles.balance}>
-              R$ {balance}
+              {language?.CoinSymbol.Symbol} {balance}
             </Text>
             <View style={styles.progressContainer}>
               <View style={[styles.progress, { width: `${progress}%` }]} />
