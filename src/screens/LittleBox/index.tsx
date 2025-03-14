@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
@@ -18,7 +19,7 @@ export default function LittleBox() {
 
   const navigation = useNavigation<StackScreenNavigationProp>();
 
-
+  const { language } = useLanguageStore();
 
   function handleGoNewLittleBox() {
     navigation.navigate('NewLittleBox');
@@ -30,21 +31,21 @@ export default function LittleBox() {
 
   return (
     <ScreenBackground
-      title="Caixinhas"
+      title={language!.LittleBox.Title}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, marginBottom: 32 }}>
         <View
           style={styles.totalBox}
         >
           <Text
             style={styles.totalTitle}
           >
-            Total
+            {language?.LittleBox.Amount}
           </Text>
           <Text
             style={styles.totalValue}
           >
-            R$ 2700,00
+            {language?.CoinSymbol.Symbol} 2700,00
           </Text>
           <Feather
             name={visibleBalance ? "eye-off" : "eye"}
@@ -59,17 +60,19 @@ export default function LittleBox() {
         </View>
       </View>
 
-      <Panel
-        name="Carro"
-        balance="7000,00"
-        progress={25}
-        onPress={handleGoLittleBoxDetails}
-      />
-      <Panel
-        name="Fatura"
-        balance="1000,00"
-        progress={80}
-      />
+      <View style={{ gap: 20 }}>
+        <Panel
+          name="Carro"
+          balance="7000,00"
+          progress={25}
+          onPress={handleGoLittleBoxDetails}
+        />
+        <Panel
+          name="Fatura"
+          balance="1000,00"
+          progress={80}
+        />
+      </View>
     </ScreenBackground>
   );
 }

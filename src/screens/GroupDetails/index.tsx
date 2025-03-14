@@ -11,6 +11,11 @@ import { Input } from "@/components/Inputs/Input";
 import { useLanguageStore } from "@/stores/LanguageStore";
 
 import { styles } from "./style";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackList } from "@/routes/AppStacks";
+import { useNavigation } from "@react-navigation/native";
+
+type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "GroupDetails">;
 
 export default function GroupDetails() {
   const [isEntry, setIsEntry] = useState(true);
@@ -18,12 +23,20 @@ export default function GroupDetails() {
   const [moneyValue, setMoneyValue] = useState('');
 
   const { language } = useLanguageStore();
+  const navigation = useNavigation<StackScreenNavigationProp>();
 
   const partcipants = [{ name: 'Welington', totalContribution: 1000 }, { name: 'Ueverton', totalContribution: 1500 }, { name: 'Weldys', totalContribution: 800 }, { name: 'Lourival', totalContribution: 2000 }];
 
+
+  function handleToAddPeople() {
+    navigation.navigate('ToAddPeople');
+  }
+
   return (
     <ScreenBackground title="Carro">
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 15 }}
+      >
         <Panel
           balance="1500,00"
           progress={90}
@@ -99,6 +112,15 @@ export default function GroupDetails() {
           }
         </View>
       </ScrollView>
+      <View
+        style={{ marginTop: 2, paddingTop: 10, borderTopWidth: 1, borderColor: MyTheme.colors.secondary }}
+      >
+        <ButtonSubmit
+          color={MyTheme.colors.secondary}
+          text={language?.GroupDetails.AddNewMember}
+          onPress={handleToAddPeople}
+        />
+      </View>
     </ScreenBackground>
   );
 }

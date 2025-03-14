@@ -10,6 +10,7 @@ import { Panel } from "@/components/panel";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { RootStackList } from "@/routes/AppStacks";
 import { useNavigation } from "@react-navigation/native";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
@@ -18,6 +19,8 @@ export default function LittleBox() {
   const [visibleBalance, setVisibleBalance] = React.useState(false);
 
   const navigation = useNavigation<StackScreenNavigationProp>()
+
+  const { language } = useLanguageStore();
 
   function handleGoNewGroup() {
     navigation.navigate('NewGroup');
@@ -28,7 +31,7 @@ export default function LittleBox() {
 
   return (
     <ScreenBackground
-      title="Grupos"
+      title={language!.Groups.Title}
     >
       <View style={styles.container}>
         <Panel
@@ -46,7 +49,7 @@ export default function LittleBox() {
         >
           <FontAwesome6 name="credit-card" size={24} color={MyTheme.colors.white} />
         </Panel>
-        <ButtonSubmit text="Novo grupo" color={MyTheme.colors.secondary} onPress={handleGoNewGroup} />
+        <ButtonSubmit text={language!.Groups.NewGroup} color={MyTheme.colors.secondary} onPress={handleGoNewGroup} />
       </View>
     </ScreenBackground>
   );

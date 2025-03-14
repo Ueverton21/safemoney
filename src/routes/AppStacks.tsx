@@ -10,9 +10,10 @@ import Profile from "@/screens/Profile";
 import NewLittleBox from "@/screens/NewLittleBox";
 import NewGroup from "@/screens/NewGroup";
 import LittleBoxDetails from "@/screens/LittleBoxDetails";
+import GroupDetails from "@/screens/GroupDetails";
+import ToAddPeople from "@/screens/ToAddPeoples";
 
 import { useLanguageStore } from "@/stores/LanguageStore";
-import GroupDetails from "@/screens/GroupDetails";
 
 export type RootStackList = {
   Login: undefined;
@@ -23,6 +24,7 @@ export type RootStackList = {
   NewGroup: undefined;
   LittleBoxDetails: undefined;
   GroupDetails: undefined;
+  ToAddPeople: undefined;
 };
 
 export default function AppStack() {
@@ -48,6 +50,7 @@ export default function AppStack() {
         <Stack.Screen name="NewGroup" component={NewGroup} />
         <Stack.Screen name="LittleBoxDetails" component={LittleBoxDetails} />
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
+        <Stack.Screen name="ToAddPeople" component={ToAddPeople} />
       </Stack.Navigator>
     </NavigationContainer>
   );

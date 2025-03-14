@@ -12,14 +12,17 @@ import { ListButton } from "@/components/Buttons/ListButton";
 import { LITTLE_BOX_DESCRIPTION } from "@/utils/Descriptions";
 
 import { styles } from "./styles";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 export default function NewLittleBox() {
   const [description, setDescription] = useState("");
   const [moneyValue, setMoneyValue] = useState("");
   const [listVisible, setListVisible] = useState(false);
 
+  const { language } = useLanguageStore();
+
   return (
-    <ScreenBackground title="Nova Caixinha">
+    <ScreenBackground title={language!.NewLittleBox.Title}>
       <View style={styles.Container}>
         <View>
           <View style={{ position: 'relative' }}>
@@ -37,7 +40,7 @@ export default function NewLittleBox() {
                   smallSize onPress={() => setListVisible(!listVisible)}
                 />
               }
-              placeholder="descrição"
+              placeholder={language!.NewLittleBox.Description}
               setValue={setDescription}
             />
             {
@@ -67,7 +70,7 @@ export default function NewLittleBox() {
             />
           }
         </View>
-        <ButtonSubmit text="Confirmar" color={MyTheme.colors.primary} />
+        <ButtonSubmit text={language!.NewLittleBox.Confirm} color={MyTheme.colors.primary} />
       </View>
 
     </ScreenBackground>
