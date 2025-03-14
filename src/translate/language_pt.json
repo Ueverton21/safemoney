@@ -119,7 +119,12 @@
     "ParticipantsName": "Nome do participante",
     "value": "Valor",
     "Responsible": "responsável",
-    "Contributions": "Contribuições"
+    "Contributions": "Contribuições",
+    "AddNewMember": "Adicionar um novo integrante"
+  },
+  "ToAddPeople": {
+    "title": "Adicionar Pessoas",
+    "search": "buscar por pessoas"
   },
   "Components": {
     "Until": "até"

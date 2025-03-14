@@ -119,7 +119,12 @@
     "ParticipantsName": "Participant's name",
     "value": "Value",
     "Responsible": "Responsible",
-    "Contributions": "Contributions"
+    "Contributions": "Contributions",
+    "AddNewMember": "Add a new member"
+  },
+  "ToAddPeople": {
+    "title": "Add people",
+    "search": "Search for people"
   },
   "Components": {
     "Until": "unitil"

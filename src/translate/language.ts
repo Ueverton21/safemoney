@@ -65,7 +65,13 @@ type GroupDetailsLanguage = {
   value: string;
   Responsible: string;
   Contributions: string;
+  AddNewMember: string;
 };
+
+type ToAddPeopleLangage = {
+  title: string;
+  search: string;
+}
 
 //COMPONENTS LANGUAGE
 
@@ -105,6 +111,7 @@ export type Language = {
   GroupDetails: GroupDetailsLanguage;
   Components: ComponentsLanguage;
   CoinSymbol: CoinSymbol;
+  ToAddPeople: ToAddPeopleLangage;
 };
 
 export function selectLanguage(language: string | null): Language {

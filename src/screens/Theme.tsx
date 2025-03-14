@@ -8,6 +8,7 @@ export const MyTheme = {
     background: "#151517",
     secondary: "#4f4f4f",
     background_secondary: "#2f2f2f",
+    medium_gray: "#3a3a3a",
     primary: "#2f855a",
     white: "#F0F0F0",
     red: "#FE2121",
