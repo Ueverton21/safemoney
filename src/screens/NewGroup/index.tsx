@@ -9,10 +9,11 @@ import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Input } from "@/components/Inputs/Input";
 import { ArrowButton } from "@/components/Buttons/ArrowButton";
 import { ListButton } from "@/components/Buttons/ListButton";
-import { LITTLE_BOX_DESCRIPTION } from "@/utils/Descriptions";
 
 import { styles } from "./styles";
 import { useLanguageStore } from "@/stores/LanguageStore";
+import { COST_DESCRIPTION_EN, ENTRY_DESCRIPTION_EN, PIGGY_BANK_DESCRIPTIONS_EN } from "@/utils/Descriptions_en";
+import { COST_DESCRIPTION_ES, ENTRY_DESCRIPTION_ES, PIGGY_BANK_DESCRIPTIONS_ES } from "@/utils/Descriptions_es";
 
 export default function NewGroup() {
   const [description, setDescription] = useState("");
@@ -50,11 +51,7 @@ export default function NewGroup() {
                   contentContainerStyle={{ paddingVertical: 10 }}
                 >
                   {
-                    LITTLE_BOX_DESCRIPTION.map((item) => {
-                      return (
-                        <ListButton key={item.id} title={item.title} />
-                      )
-                    })
+
                   }
                 </ScrollView>
               )

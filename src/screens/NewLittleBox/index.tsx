@@ -9,10 +9,10 @@ import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Input } from "@/components/Inputs/Input";
 import { ArrowButton } from "@/components/Buttons/ArrowButton";
 import { ListButton } from "@/components/Buttons/ListButton";
-import { LITTLE_BOX_DESCRIPTION } from "@/utils/Descriptions";
 
 import { styles } from "./styles";
 import { useLanguageStore } from "@/stores/LanguageStore";
+import { PIGGY_BANK_DESCRIPTIONS } from "@/utils/Descriptions";
 
 export default function NewLittleBox() {
   const [description, setDescription] = useState("");
@@ -50,7 +50,7 @@ export default function NewLittleBox() {
                   contentContainerStyle={{ paddingVertical: 10 }}
                 >
                   {
-                    LITTLE_BOX_DESCRIPTION.map((item) => {
+                    PIGGY_BANK_DESCRIPTIONS.map((item) => {
                       return (
                         <ListButton key={item.id} title={item.title} />
                       )

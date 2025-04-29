@@ -1,4 +1,4 @@
-export const ENTRY_DESCRIPTION = [
+export const ENTRY_DESCRIPTIO_PT = [
   {
     id: 1,
     title: 'salário',
@@ -31,7 +31,7 @@ export const ENTRY_DESCRIPTION = [
   }
 ];
 
-export const COST_DESCRIPTION = [
+export const COST_DESCRIPTION_PT = [
   {
     id: 1,
     title: 'pagamento do aluguel',
@@ -64,7 +64,7 @@ export const COST_DESCRIPTION = [
   }
 ];
 
-export const LITTLE_BOX_DESCRIPTION = [
+export const PIGGY_BANK_DESCRIPTIONS_PT = [
   {
     id: 1,
     title: 'pagamento do aluguel',
