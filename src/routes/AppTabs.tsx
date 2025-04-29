@@ -103,14 +103,14 @@ export default function AppTabs(props: Props) {
           },
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="NewLittleBox"
         component={NewLittleBox}
         options={{
           tabBarButton: () => null,
           tabBarStyle: { display: "none" },
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

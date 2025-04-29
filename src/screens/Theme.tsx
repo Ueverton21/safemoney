@@ -7,6 +7,7 @@ export const MyTheme = {
     background_dark: "#09090b",
     background: "#151517",
     secondary: "#4f4f4f",
+    textOpace: "#DDD",
     background_secondary: "#2f2f2f",
     primary: "#2f855a",
     white: "#F0F0F0",

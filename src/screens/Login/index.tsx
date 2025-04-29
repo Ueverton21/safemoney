@@ -23,6 +23,7 @@ import { MyPicker } from "@/components/Picker/MyPicker";
 import { useUserStore } from "@/stores/UserStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SelectLanguage } from "@/components/Picker/SelectLanguage";
+import { useMovimentStore } from "@/stores/MovimentStore";
 
 type Props = NativeStackScreenProps<RootStackList, "Login">;
 
@@ -35,6 +36,15 @@ export default function Login({ navigation }: Props) {
 
   const { language } = useLanguageStore();
   const { getUser } = useUserStore();
+  const { getMovimentsByMonth } = useMovimentStore();
+
+  function executeStores(email: string) {
+    getUser(email!);
+    var date = new Date();
+    var monthSelect = date.getMonth();
+    var yearSelect = date.getFullYear();
+    getMovimentsByMonth(email!, monthSelect + 1, yearSelect);
+  }
 
   useEffect(() => {
     async function initial() {
@@ -42,7 +52,7 @@ export default function Login({ navigation }: Props) {
 
       if (isLoggedUser) {
         const emailStorage = await AsyncStorage.getItem("@email");
-        getUser(emailStorage!);
+        executeStores(emailStorage!);
 
         navigation.navigate("Tabs");
       } else {
@@ -58,7 +68,7 @@ export default function Login({ navigation }: Props) {
       var auth = await authenticate(email, password);
       if (auth) {
         await AsyncStorage.setItem("@email", email);
-        getUser(email);
+        executeStores(email);
         navigation.navigate("Tabs");
       } else {
         console.log("CREDENCIAIS INVÁLIDAS");
@@ -92,13 +102,13 @@ export default function Login({ navigation }: Props) {
       </View>
       <Input
         value={email}
-        setValue={setEmail}
+        onChangeText={(txt) => setEmail(txt)}
         placeholder={language?.Login.FieldEmail}
       />
       <Input
         secureTextEntry={true}
         value={password}
-        setValue={setPassword}
+        onChangeText={(txt) => setPassword(txt)}
         placeholder={language?.Login.Password}
         message={error}
       />

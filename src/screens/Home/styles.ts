@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    width: "44%",
+    width: "48%",
     borderRadius: 8,
   },
   movimentTitle: {
@@ -94,15 +94,5 @@ export const styles = StyleSheet.create({
     color: MyTheme.colors.secondary,
     marginTop: 10,
     marginBottom: 20,
-  },
-  textEntry: {
-    fontSize: 14,
-    color: MyTheme.colors.primary,
-    marginTop: 2,
-  },
-  textExit: {
-    fontSize: 14,
-    color: MyTheme.colors.red,
-    marginTop: 2,
   },
 });

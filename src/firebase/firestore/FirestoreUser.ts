@@ -1,6 +1,8 @@
 import { User } from "@/stores/UserType";
 import { firebaseApp } from "../config";
 import { setDoc, doc, getFirestore, getDoc } from "firebase/firestore";
+import { Moviment } from "@/stores/MovimentType";
+import { useUserStore } from "@/stores/UserStore";
 
 export async function ToAddUser(
   name: string,
@@ -38,6 +40,35 @@ export async function getUserFirestore(email: string): Promise<User | null> {
     }
     return null;
   } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateBalance(moviment: Moviment) {
+  const db = getFirestore(firebaseApp);
+  const { user } = useUserStore.getState();
+  console.log(user);
+  try {
+    const docRef = doc(db, "users", user!.Email);
+
+    const balanceUpdate =
+      moviment.Type == "entry"
+        ? user!.Balance + moviment.Value
+        : user!.Balance - moviment.Value;
+
+    const userUpdate: User = {
+      Balance: balanceUpdate,
+      Name: user!.Name,
+      Email: user!.Email,
+      LastName: user!.LastName,
+      CreatedAt: user?.CreatedAt ? user?.CreatedAt : new Date(),
+    };
+
+    await setDoc(docRef, userUpdate, { merge: true });
+
+    return moviment;
+  } catch (error) {
+    console.log(error);
     throw error;
   }
 }

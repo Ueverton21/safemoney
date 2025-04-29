@@ -24,7 +24,10 @@ export function MyPicker({ list, onValueChange, children }: PickerProps) {
       </TouchableOpacity>
 
       <Modal animationType="fade" transparent={true} visible={visibleOptions}>
-        <View style={styles.modal}>
+        <TouchableOpacity
+          style={styles.modal}
+          onPress={() => setVisibleOptions(false)}
+        >
           <ScrollView style={styles.modalContent}>
             {list?.map((opt) => (
               <TouchableOpacity
@@ -39,7 +42,7 @@ export function MyPicker({ list, onValueChange, children }: PickerProps) {
               </TouchableOpacity>
             ))}
           </ScrollView>
-        </View>
+        </TouchableOpacity>
       </Modal>
     </>
   );

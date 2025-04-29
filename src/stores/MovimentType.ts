@@ -1,4 +1,4 @@
-export type MovimentType = {
+export type Moviment = {
   Date: Date;
   Description: string;
   Type: "entry" | "exit";
