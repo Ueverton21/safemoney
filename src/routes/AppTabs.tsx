@@ -21,7 +21,6 @@ export type RootTabsList = {
   Groups: undefined;
   Settings: undefined;
   ToAdd: undefined;
-  NewLittleBox: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackList, "Tabs">;

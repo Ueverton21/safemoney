@@ -14,7 +14,7 @@ import { LITTLE_BOX_DESCRIPTION } from "@/utils/Descriptions";
 import { styles } from "./styles";
 import { useLanguageStore } from "@/stores/LanguageStore";
 
-export default function NewLittleBox() {
+export default function NewGroup() {
   const [description, setDescription] = useState("");
   const [moneyValue, setMoneyValue] = useState("");
   const [listVisible, setListVisible] = useState(false);
@@ -22,7 +22,7 @@ export default function NewLittleBox() {
   const { language } = useLanguageStore();
 
   return (
-    <ScreenBackground title={language!.NewLittleBox.Title}>
+    <ScreenBackground title={language!.NewGroup.Title}>
       <View style={styles.Container}>
         <View>
           <View style={{ position: 'relative' }}>
@@ -40,7 +40,7 @@ export default function NewLittleBox() {
                   smallSize onPress={() => setListVisible(!listVisible)}
                 />
               }
-              placeholder={language!.NewLittleBox.Description}
+              placeholder={language?.NewGroup.Description}
               setValue={setDescription}
             />
             {
@@ -70,7 +70,7 @@ export default function NewLittleBox() {
             />
           }
         </View>
-        <ButtonSubmit text={language!.NewLittleBox.Confirm} color={MyTheme.colors.primary} />
+        <ButtonSubmit text={language?.NewGroup.Confirm} color={MyTheme.colors.primary} />
       </View>
 
     </ScreenBackground>

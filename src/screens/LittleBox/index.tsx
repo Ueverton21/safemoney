@@ -6,40 +6,46 @@ import { MyTheme } from "../Theme";
 import { styles } from "./styles";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { useNavigation } from "@react-navigation/native";
-import { RootTabsList } from "@/routes/AppTabs";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackList } from "@/routes/AppStacks";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { useLanguageStore } from "@/stores/LanguageStore";
 
-type Props = NativeStackScreenProps<RootTabsList, "LittleBox">;
+type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
-export default function LittleBox({ navigation }: Props) {
+export default function LittleBox() {
 
   const [visibleBalance, setVisibleBalance] = React.useState(false);
 
+  const navigation = useNavigation<StackScreenNavigationProp>();
 
+  const { language } = useLanguageStore();
 
   function handleGoNewLittleBox() {
     navigation.navigate('NewLittleBox');
   }
 
+  function handleGoLittleBoxDetails() {
+    navigation.navigate('LittleBoxDetails');
+  }
+
   return (
     <ScreenBackground
-      title="Caixinhas"
+      title={language!.LittleBox.Title}
     >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, marginBottom: 32 }}>
         <View
           style={styles.totalBox}
         >
           <Text
             style={styles.totalTitle}
           >
-            Total
+            {language?.LittleBox.Amount}
           </Text>
           <Text
             style={styles.totalValue}
           >
-            R$ 2700,00
+            {language?.CoinSymbol.Symbol} 2700,00
           </Text>
           <Feather
             name={visibleBalance ? "eye-off" : "eye"}
@@ -54,20 +60,19 @@ export default function LittleBox({ navigation }: Props) {
         </View>
       </View>
 
-      <Panel
-        name="Carro"
-        balance="7000,00"
-        progress={25}
-      >
-        <FontAwesome6 name="key" size={24} color={MyTheme.colors.white} />
-      </Panel>
-      <Panel
-        name="Fatura"
-        balance="1000,00"
-        progress={80}
-      >
-        <FontAwesome6 name="credit-card" size={24} color={MyTheme.colors.white} />
-      </Panel>
+      <View style={{ gap: 20 }}>
+        <Panel
+          name="Carro"
+          balance="7000,00"
+          progress={25}
+          onPress={handleGoLittleBoxDetails}
+        />
+        <Panel
+          name="Fatura"
+          balance="1000,00"
+          progress={80}
+        />
+      </View>
     </ScreenBackground>
   );
 }

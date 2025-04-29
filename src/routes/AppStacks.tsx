@@ -7,6 +7,12 @@ import Login from "@/screens/Login";
 import Create from "@/screens/Create";
 import AppTabs from "@/routes/AppTabs";
 import Profile from "@/screens/Profile";
+import NewLittleBox from "@/screens/NewLittleBox";
+import NewGroup from "@/screens/NewGroup";
+import LittleBoxDetails from "@/screens/LittleBoxDetails";
+import GroupDetails from "@/screens/GroupDetails";
+import ToAddPeople from "@/screens/ToAddPeoples";
+
 import { useLanguageStore } from "@/stores/LanguageStore";
 
 export type RootStackList = {
@@ -14,6 +20,11 @@ export type RootStackList = {
   Create: undefined;
   Tabs: undefined;
   Profile: undefined;
+  NewLittleBox: undefined;
+  NewGroup: undefined;
+  LittleBoxDetails: undefined;
+  GroupDetails: undefined;
+  ToAddPeople: undefined;
 };
 
 export default function AppStack() {
@@ -35,6 +46,11 @@ export default function AppStack() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Create" component={Create} />
+        <Stack.Screen name="NewLittleBox" component={NewLittleBox} />
+        <Stack.Screen name="NewGroup" component={NewGroup} />
+        <Stack.Screen name="LittleBoxDetails" component={LittleBoxDetails} />
+        <Stack.Screen name="GroupDetails" component={GroupDetails} />
+        <Stack.Screen name="ToAddPeople" component={ToAddPeople} />
       </Stack.Navigator>
     </NavigationContainer>
   );

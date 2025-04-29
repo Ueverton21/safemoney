@@ -1,29 +1,71 @@
-import { ReactNode } from "react";
-import { Text, TouchableOpacityProps, View } from "react-native";
+import { Text, Touchable, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+
+import { MyTheme } from "@/screens/Theme";
+
 import { styles } from "./styles";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { useState } from "react";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 type PanelProps = TouchableOpacityProps & {
-  children: ReactNode;
-  name: string;
+  name?: string;
   progress: number;
   balance: string;
+  date?: string;
 }
-export function Panel({ children, name, progress, balance }: PanelProps) {
-  return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={styles.name}>
-          {name}
-        </Text>
-        {children}
-      </View>
+export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {
+  const [buttonDateSelected, setButtonDateSelected] = useState(false);
 
-      <Text style={styles.balance}>
-        R$ {balance}
-      </Text>
-      <View style={styles.progressContainer}>
-        <View style={[styles.progress, { width: `${progress}%` }]} />
-      </View>
-    </View>
+  const { language } = useLanguageStore();
+
+  return (
+    <>
+      {
+        date ? (
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <TouchableOpacity
+                style={styles.buttonDate}
+                onPress={() => setButtonDateSelected(!buttonDateSelected)}
+                {...rest}>
+                <Text style={styles.date}>
+                  {language?.Components.Until}: {date}
+                </Text>
+                <FontAwesome5
+                  name={buttonDateSelected ? 'chevron-up' : 'chevron-down'}
+                  size={20}
+                  color="white"
+                />
+              </TouchableOpacity>
+              <FontAwesome6 name="credit-card" size={35} color={MyTheme.colors.white} />
+            </View>
+
+            <Text style={styles.balance}>
+              {language?.CoinSymbol.Symbol} {balance}
+            </Text>
+            <View style={styles.progressContainer}>
+              <View style={[styles.progress, { width: `${progress}%` }]} />
+            </View>
+          </View>
+        ) : (
+          <TouchableOpacity style={styles.container} {...rest}>
+            <View style={styles.row}>
+              <Text style={styles.name}>
+                {name}
+              </Text>
+              <FontAwesome6 name="credit-card" size={24} color={MyTheme.colors.white} />
+            </View>
+
+            <Text style={styles.balance}>
+              {language?.CoinSymbol.Symbol} {balance}
+            </Text>
+            <View style={styles.progressContainer}>
+              <View style={[styles.progress, { width: `${progress}%` }]} />
+            </View>
+          </TouchableOpacity>
+        )
+      }
+    </>
   )
 }

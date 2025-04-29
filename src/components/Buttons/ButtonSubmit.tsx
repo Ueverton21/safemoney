@@ -24,6 +24,7 @@ export function ButtonSubmit({
   loading = false,
   smallHeight = false,
   children,
+  disabled = false,
   ...rest
 }: ButtonProps) {
   return (
@@ -34,9 +35,12 @@ export function ButtonSubmit({
           backgroundColor: backgroundTranspatent ? "rgba(0,0,0,0)" : color,
           borderColor: backgroundTranspatent ? color : "rgba(0,0,0,0)",
           borderWidth: backgroundTranspatent ? 2 : 0,
-          height: smallHeight ? "auto" : 42,
+          height: smallHeight ? 42 : 56,
+          borderRadius: smallHeight ? 8 : 12,
+          opacity: disabled ? 0.4 : 1,
         },
       ]}
+      disabled={disabled}
       {...rest}
     >
       {loading ? (
@@ -52,8 +56,6 @@ export function ButtonSubmit({
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 12,
-    height: 56,
     alignItems: "center",
     justifyContent: "center",
   },

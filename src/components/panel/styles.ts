@@ -4,22 +4,35 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 50,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 5,
+    marginBottom: 10,
+    alignItems: 'center',
   },
   name: {
     fontSize: 22,
     color: MyTheme.colors.white
   },
+  buttonDate: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    backgroundColor: MyTheme.colors.secondary,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  date: {
+    color: MyTheme.colors.white,
+    fontSize: 18,
+    marginRight: 5,
+  },
   balance: {
     fontSize: 26,
     color: MyTheme.colors.white,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   progressContainer: {
     width: '100%',
