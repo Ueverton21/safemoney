@@ -5,6 +5,8 @@ import {
   FirebaseMoviment,
 } from "@/firebase/firestore/FirestoreMoviment";
 const firebaseMoviment = new FirebaseMoviment();
+import { useUserStore } from "./UserStore";
+import { User } from "./UserType";
 
 interface MovimentState {
   moviments: Array<Moviment> | null;
@@ -15,6 +17,12 @@ interface MovimentState {
     year: number
   ) => Promise<void>;
   addMoviment: (moviment: Moviment, email: string) => Promise<void>;
+  removeMoviment: (
+    email: string,
+    month: number,
+    year: number,
+    id: string
+  ) => Promise<void>;
 }
 
 export const useMovimentStore = create<MovimentState>()((set) => ({
@@ -42,6 +50,40 @@ export const useMovimentStore = create<MovimentState>()((set) => ({
         }
         var newMoviments = [moviment, ...state.moviments!];
         return { moviments: newMoviments, months: newMonths };
+      });
+    } catch (error) {
+      throw error;
+    }
+  },
+  removeMoviment: async (
+    email: string,
+    month: number,
+    year: number,
+    id: string
+  ) => {
+    try {
+      await firebaseMoviment.removeMoviment(email, month, year, id);
+      const { user, updateUser } = useUserStore.getState();
+
+      set((state) => {
+        var moviment = state.moviments?.find((mov) => mov.Id === id);
+        const balanceUpdate =
+          moviment?.Type == "entry"
+            ? user!.Balance - moviment.Value
+            : user!.Balance + moviment!.Value;
+
+        const newUser: User = {
+          Name: user?.Name!,
+          Balance: balanceUpdate,
+          CreatedAt: user?.CreatedAt!,
+          Email: user?.Email!,
+          LastName: user?.LastName!,
+        };
+        updateUser(newUser);
+        var newMoviments = state.moviments?.filter((mov) => {
+          return mov.Id !== id;
+        });
+        return { moviments: newMoviments };
       });
     } catch (error) {
       throw error;

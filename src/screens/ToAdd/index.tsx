@@ -10,7 +10,6 @@ import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Input } from "@/components/Inputs/Input";
 import { ArrowButton } from "@/components/Buttons/ArrowButton";
 import { ListButton } from "@/components/Buttons/ListButton";
-import { ENTRY_DESCRIPTION } from "@/utils/Descriptions";
 
 import { styles } from "./styles";
 import { useMovimentStore } from "@/stores/MovimentStore";
@@ -26,11 +25,12 @@ export default function ToAdd() {
   const { addMoviment } = useMovimentStore();
   const { user } = useUserStore();
 
-  function handleAddMoviment() {
+  async function handleAddMoviment() {
     if (description === "" || moneyValue === "") {
       Keyboard.dismiss();
-      setTimeout(() => {}, 100);
-      showToastError();
+      setTimeout(() => {
+        showToastError();
+      }, 500);
     } else {
       addMoviment(
         {
@@ -42,8 +42,9 @@ export default function ToAdd() {
         user?.Email!
       ).then(() => {
         Keyboard.dismiss();
-        setTimeout(() => {}, 100);
-        showToastSuccess();
+        setTimeout(() => {
+          showToastSuccess();
+        }, 500);
         setDescription("");
         setMoneyValue("");
       });
@@ -125,9 +126,9 @@ export default function ToAdd() {
               style={styles.listcontainer}
               contentContainerStyle={{ paddingVertical: 10 }}
             >
-              {ENTRY_DESCRIPTION.map((item) => {
+              {/*ENTRY_DESCRIPTION.map((item) => {
                 return <ListButton key={item.id} title={item.title} />;
-              })}
+              })*/}
             </ScrollView>
           )}
         </View>

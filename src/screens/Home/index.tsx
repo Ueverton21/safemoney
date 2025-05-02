@@ -186,6 +186,7 @@ export default function Home() {
               {moviments?.map((item, index) => {
                 return (
                   <MovimentDetail
+                    Id={item.Id}
                     Date={item.Date}
                     Description={item.Description}
                     Type={item.Type}

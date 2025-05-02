@@ -9,6 +9,7 @@ import {
   query,
   orderBy,
   serverTimestamp,
+  deleteDoc,
 } from "firebase/firestore";
 import { updateBalance } from "./FirestoreUser";
 
@@ -41,7 +42,7 @@ export class FirebaseMoviment {
       if (moviments.docs.length > 0) {
         var listMoviments = new Array<Moviment>();
         moviments.forEach((moviment) => {
-          listMoviments.push(mapToMoviment(moviment.data()));
+          listMoviments.push(mapToMoviment(moviment.data(), moviment.id));
         });
 
         return listMoviments;
@@ -88,6 +89,8 @@ export class FirebaseMoviment {
           ? user!.Balance + moviment.Value
           : user!.Balance - moviment.Value;
 
+      moviment.Id = docMovimentsRef.id;
+
       const newUser: User = {
         Name: user?.Name!,
         Balance: balanceUpdate,
@@ -124,14 +127,36 @@ export class FirebaseMoviment {
       throw error;
     }
   }
+  async removeMoviment(email: string, month: number, year: number, id: string) {
+    const db = getFirestore(firebaseApp);
+
+    const monthYear = `${addDigitZeroByMonth(month)}-${year}`;
+    try {
+      const docMoviment = doc(
+        db,
+        "users",
+        email,
+        "movimentMonth",
+        monthYear,
+        "moviments",
+        id
+      );
+
+      await deleteDoc(docMoviment);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 }
 
-function mapToMoviment(data: any): Moviment {
+function mapToMoviment(data: any, id: string): Moviment {
   return {
-    Date: data.Date,
+    Date: data.Date.toDate(),
     Description: data.Description,
     Type: data.Type,
     Value: data.Value,
+    Id: id,
   };
 }
 
