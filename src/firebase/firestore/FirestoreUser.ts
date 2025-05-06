@@ -1,6 +1,12 @@
 import { User } from "@/stores/UserType";
 import { firebaseApp } from "../config";
-import { setDoc, doc, getFirestore, getDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getFirestore,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { Moviment } from "@/stores/MovimentType";
 import { useUserStore } from "@/stores/UserStore";
 
@@ -22,7 +28,18 @@ export async function ToAddUser(
       CreatedAt: new Date(),
     };
     await setDoc(docRef, user);
-    console.log("SUCESSO");
+  } catch (error) {
+    throw error;
+  }
+}
+export async function UpdateUser(user: User, email: string): Promise<void> {
+  const db = getFirestore(firebaseApp);
+
+  try {
+    const docRef = doc(db, "users", email);
+
+    await updateDoc(docRef, user);
+    console.log("SUCESSO - UPDATE");
   } catch (error) {
     throw error;
   }

@@ -11,7 +11,7 @@ import {
   serverTimestamp,
   deleteDoc,
 } from "firebase/firestore";
-import { updateBalance } from "./FirestoreUser";
+import { updateBalance, UpdateUser } from "./FirestoreUser";
 
 import { useUserStore } from "@/stores/UserStore";
 import { User } from "@/stores/UserType";
@@ -98,6 +98,9 @@ export class FirebaseMoviment {
         Email: user?.Email!,
         LastName: user?.LastName!,
       };
+      //Firebase
+      await UpdateUser(newUser, email);
+      //Zustand
       updateUser(newUser);
 
       return moviment;
