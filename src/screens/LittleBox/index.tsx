@@ -1,6 +1,6 @@
 import { ScreenBackground } from "@/components/Background/ScreenBackground";
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MyTheme } from "../Theme";
 import { styles } from "./styles";
@@ -10,6 +10,9 @@ import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Panel } from "@/components/panel";
 import { useLanguageStore } from "@/stores/LanguageStore";
+import { usePiggyBankStore } from "@/stores/PiggyBankStore";
+import { useUserStore } from "@/stores/UserStore";
+import { PiggyBank } from "@/stores/PiggyBankType";
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
@@ -20,14 +23,20 @@ export default function LittleBox() {
   const navigation = useNavigation<StackScreenNavigationProp>();
 
   const { language } = useLanguageStore();
+  const { user } = useUserStore();
+  const { piggyBanks, getPiggyBank } = usePiggyBankStore();
 
   function handleGoNewLittleBox() {
     navigation.navigate('NewLittleBox');
   }
 
-  function handleGoLittleBoxDetails() {
-    navigation.navigate('LittleBoxDetails');
+  function handleGoLittleBoxDetails(piggyBank: PiggyBank) {
+    navigation.navigate('LittleBoxDetails', { piggyBank });
   }
+
+  useEffect(() => {
+    getPiggyBank(user!.Email);
+  }, [])
 
   return (
     <ScreenBackground
@@ -60,19 +69,23 @@ export default function LittleBox() {
         </View>
       </View>
 
-      <View style={{ gap: 20 }}>
-        <Panel
-          name="Carro"
-          balance="7000,00"
-          progress={25}
-          onPress={handleGoLittleBoxDetails}
-        />
-        <Panel
-          name="Fatura"
-          balance="1000,00"
-          progress={80}
-        />
-      </View>
+      <ScrollView contentContainerStyle={{ gap: 20 }}>
+        {
+          piggyBanks && piggyBanks?.length > 0 ? (
+            piggyBanks.map((item) => (
+              <Panel
+                key={item.id}
+                balance={item.amountValue}
+                name={item.description}
+                progress={item.amountValue * 100 / item.goal}
+                onPress={() => handleGoLittleBoxDetails(item)}
+              />
+            ))
+          ) : (
+            <></>
+          )
+        }
+      </ScrollView>
     </ScreenBackground>
   );
 }

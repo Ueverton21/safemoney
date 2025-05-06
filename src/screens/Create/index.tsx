@@ -66,7 +66,7 @@ export default function Create() {
       <View style={styles.name}>
         <View style={{ width: "48%" }}>
           <Input
-            setValue={setName}
+            onChangeText={setName}
             value={name}
             placeholder={language?.Create.Name}
           />
@@ -74,20 +74,20 @@ export default function Create() {
         <View style={{ marginHorizontal: "2%" }}></View>
         <View style={{ width: "48%" }}>
           <Input
-            setValue={setLastName}
+            onChangeText={setLastName}
             value={lastName}
             placeholder={language?.Create.LastName}
           />
         </View>
       </View>
       <Input
-        setValue={setEmail}
+        onChangeText={setEmail}
         value={email}
         placeholder={language?.Login.FieldEmail}
       />
       <Input
         secureTextEntry={true}
-        setValue={setPassword}
+        onChangeText={setPassword}
         value={password}
         placeholder={language?.Login.Password}
         message={error}

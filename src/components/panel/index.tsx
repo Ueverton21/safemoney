@@ -11,7 +11,7 @@ import { useLanguageStore } from "@/stores/LanguageStore";
 type PanelProps = TouchableOpacityProps & {
   name?: string;
   progress: number;
-  balance: string;
+  balance: number;
   date?: string;
 }
 export function Panel({ name, progress, balance, date, ...rest }: PanelProps) {

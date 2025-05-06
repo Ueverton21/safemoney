@@ -14,6 +14,7 @@ import GroupDetails from "@/screens/GroupDetails";
 import ToAddPeople from "@/screens/ToAddPeoples";
 
 import { useLanguageStore } from "@/stores/LanguageStore";
+import { PiggyBank } from "@/stores/PiggyBankType";
 
 export type RootStackList = {
   Login: undefined;
@@ -22,7 +23,9 @@ export type RootStackList = {
   Profile: undefined;
   NewLittleBox: undefined;
   NewGroup: undefined;
-  LittleBoxDetails: undefined;
+  LittleBoxDetails: {
+    piggyBank: PiggyBank;
+  };
   GroupDetails: undefined;
   ToAddPeople: undefined;
 };

@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { Keyboard, ScrollView, View } from "react-native";
 import React, { useState } from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
@@ -13,6 +13,10 @@ import { ListButton } from "@/components/Buttons/ListButton";
 import { styles } from "./styles";
 import { useLanguageStore } from "@/stores/LanguageStore";
 import { PIGGY_BANK_DESCRIPTIONS_PT } from "@/utils/Descriptions_pt";
+import Toast from "react-native-toast-message";
+import { usePiggyBankStore } from "@/stores/PiggyBankStore";
+import { useUserStore } from "@/stores/UserStore";
+import { decimalMask } from "@/utils/Masks";
 
 export default function NewLittleBox() {
   const [description, setDescription] = useState("");
@@ -20,9 +24,53 @@ export default function NewLittleBox() {
   const [listVisible, setListVisible] = useState(false);
 
   const { language } = useLanguageStore();
+  const { newPiggyBank } = usePiggyBankStore();
+  const { user } = useUserStore();
+
+  async function handleNewPiggyBank() {
+    if (description.trim() === "" || moneyValue.trim() === "") {
+      Keyboard.dismiss();
+      setTimeout(() => {
+        showToastError();
+      }, 500);
+    } else {
+      newPiggyBank(
+        {
+          dateGoal: new Date(),
+          description: description,
+          amountValue: 0,
+          goal: Number.parseFloat(moneyValue),
+        },
+        user?.Email!
+      ).then(() => {
+        setDescription('');
+        setMoneyValue('');
+        Keyboard.dismiss();
+        setTimeout(() => {
+          showToastSuccess();
+        }, 500);
+      })
+    }
+  }
+
+  function showToastSuccess() {
+    Toast.show({
+      type: "success",
+      text1: "Adicionar",
+      text2: "Movimentação adicionada",
+    });
+  }
+  function showToastError() {
+    Toast.show({
+      type: "error",
+      text1: "Erro",
+      text2: "Preencha os campos",
+    });
+  }
 
   return (
     <ScreenBackground title={language!.NewLittleBox.Title}>
+      <Toast position="bottom" bottomOffset={80} />
       <View style={styles.Container}>
         <View>
           <View style={{ position: "relative" }}>
@@ -42,7 +90,8 @@ export default function NewLittleBox() {
                 />
               }
               placeholder={language!.NewLittleBox.Description}
-              setValue={setDescription}
+              onChangeText={setDescription}
+              value={description}
             />
             {listVisible && (
               <ScrollView
@@ -66,13 +115,15 @@ export default function NewLittleBox() {
               }
               placeholder="00,00"
               keyboardType="numeric"
-              setValue={setMoneyValue}
+              onChangeText={(text) => setMoneyValue(decimalMask(text))}
+              value={moneyValue}
             />
           )}
         </View>
         <ButtonSubmit
           text={language!.NewLittleBox.Confirm}
           color={MyTheme.colors.primary}
+          onPress={handleNewPiggyBank}
         />
       </View>
     </ScreenBackground>
