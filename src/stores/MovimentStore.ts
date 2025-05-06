@@ -7,6 +7,7 @@ import {
 const firebaseMoviment = new FirebaseMoviment();
 import { useUserStore } from "./UserStore";
 import { User } from "./UserType";
+import { UpdateUser } from "@/firebase/firestore/FirestoreUser";
 
 interface MovimentState {
   moviments: Array<Moviment> | null;
@@ -79,6 +80,9 @@ export const useMovimentStore = create<MovimentState>()((set) => ({
           Email: user?.Email!,
           LastName: user?.LastName!,
         };
+        //Firebase
+        UpdateUser(newUser, email);
+        //Zustand
         updateUser(newUser);
         var newMoviments = state.moviments?.filter((mov) => {
           return mov.Id !== id;
