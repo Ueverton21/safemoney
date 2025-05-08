@@ -4,7 +4,7 @@ import { MyTheme } from "../Theme";
 export const styles = StyleSheet.create({
   buttonGoal: {
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 20,
     paddingVertical: 8,
     paddingHorizontal: 10,
     backgroundColor: MyTheme.colors.secondary,
@@ -13,12 +13,12 @@ export const styles = StyleSheet.create({
   },
   goal: {
     color: MyTheme.colors.white,
-    fontSize: 22,
+    fontSize: 18,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   valueLabel: {
     color: MyTheme.colors.white,

@@ -25,14 +25,14 @@ export const styles = StyleSheet.create({
   },
   date: {
     color: MyTheme.colors.white,
-    fontSize: 18,
+    fontSize: 14,
     marginRight: 5,
   },
   balance: {
-    fontSize: 26,
+    fontSize: 24,
     color: MyTheme.colors.white,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 15,
   },
   progressContainer: {
     width: '100%',

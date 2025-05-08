@@ -24,7 +24,7 @@ export type RootStackList = {
   NewLittleBox: undefined;
   NewGroup: undefined;
   LittleBoxDetails: {
-    piggyBank: PiggyBank;
+    piggyBankId: string;
   };
   GroupDetails: undefined;
   ToAddPeople: undefined;

@@ -7,9 +7,11 @@ const firebasePiggyBank = new FirebasePiggyBank();
 
 interface PiggyBankState {
   piggyBanks: PiggyBank[] | null;
-  getPiggyBank: (email: string) => Promise<void>;
+  movimentsInPiggyBank: Moviment[] | null;
+  getPiggyBanks: (email: string) => void;
+  getPiggyBank: (email: string, piggyBankId: string) => Promise<PiggyBank | undefined>;
   newPiggyBank: (piggyBank: PiggyBank, email: string) => Promise<void>;
-  getMovimentsOfPiggyBank: (PiggyBankId: string, email: string) => Promise<Moviment[]>;
+  getMovimentsOfPiggyBank: (PiggyBankId: string, email: string) => Promise<void>;
   addMovimentInPiggyBank: (
     piggyBank: PiggyBank,
     email: string,
@@ -19,40 +21,62 @@ interface PiggyBankState {
 
 export const usePiggyBankStore = create<PiggyBankState>((set) => ({
   piggyBanks: null,
-  getPiggyBank: async (email: string) => {
+  movimentsInPiggyBank: null,
+  getPiggyBanks: async (email: string) => {
     set({
-      piggyBanks: await firebasePiggyBank.piggyBanks(email),
+      piggyBanks: await firebasePiggyBank.piggyBanks(email)
     })
   },
+
+  getPiggyBank: async (email: string, piggyBankId: string) => {
+    const piggyBankData = await firebasePiggyBank.getPiggyBank(email, piggyBankId)
+    console.log(piggyBankData)
+    return piggyBankData;
+  },
+
   newPiggyBank: async (piggyBank: PiggyBank, email: string) => {
     try {
       await firebasePiggyBank.newPiggyBank(piggyBank, email);
 
-
+      set({
+        piggyBanks: await firebasePiggyBank.piggyBanks(email),
+      })
     } catch (error) {
       throw error
     }
   },
-  getMovimentsOfPiggyBank: async (piggyBankId: string, email: string) => {
+
+  getMovimentsOfPiggyBank: async (email: string, piggyBankId: string) => {
     const moviments = await firebasePiggyBank.movimentsOfPiggyBank(piggyBankId, email);
-
-    return moviments
-
-
+    set({
+      movimentsInPiggyBank: moviments
+    })
   },
+
   addMovimentInPiggyBank: async (
     piggyBank: PiggyBank,
     email: string,
     moviment: Moviment
   ) => {
     await firebasePiggyBank.addMovimentInPiggyBank(piggyBank.id!, email, moviment);
+    console.log('chegou aqui')
+
+    const amountValueUpdate =
+      moviment?.Type == "entry"
+        ? piggyBank!.amountValue + moviment.Value
+        : piggyBank!.amountValue - moviment!.Value;
 
     const UpdatedPigBank: PiggyBank = {
       dateGoal: piggyBank.dateGoal,
       description: piggyBank.description,
       goal: piggyBank.goal,
       id: piggyBank.id!,
-      amountValue: 
-    }
+      amountValue: amountValueUpdate
+    };
+    await firebasePiggyBank.updatePiggyBank(UpdatedPigBank, email);
+
+    set({
+      piggyBanks: await firebasePiggyBank.piggyBanks(email),
+    })
   },
 }))

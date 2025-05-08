@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   serverTimestamp,
@@ -40,6 +41,24 @@ export class FirebasePiggyBank {
       throw error;
     }
   }
+  async getPiggyBank(email: string, piggyBankId: string) {
+    const db = getFirestore(firebaseApp);
+
+    try {
+      const piggyBankRef = doc(db, "users", email, "piggyBanks", piggyBankId);
+      const docSnap = (await getDoc(piggyBankRef));
+
+      if (docSnap.data()) {
+        return {
+          ...docSnap.data(),
+          dateGoal: docSnap.data()!.dateGoal.toDate(),
+        } as PiggyBank;
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
   async newPiggyBank(
     piggyBank: PiggyBank,
     email: string
@@ -58,13 +77,14 @@ export class FirebasePiggyBank {
     try {
       const piggyBankRef = await addDoc(
         collection(db, "users", email, "piggyBanks"),
-        piggyBank
+        piggyBank,
       );
 
 
+      console.log(piggyBankRef.id)
       piggyBank.id = piggyBankRef.id;
 
-
+      console.log(piggyBank)
       return piggyBank;
     } catch (error) {
       throw error;
@@ -91,7 +111,6 @@ export class FirebasePiggyBank {
         movimentsOfPiggyBank.forEach((item) => {
           listMoviments.push(mapToMovimentsOfPiggyBank(item.data(), item.id));
         });
-
         return listMoviments;
       } else {
         return new Array<Moviment>();
@@ -109,15 +128,31 @@ export class FirebasePiggyBank {
   ): Promise<Moviment> {
     const db = getFirestore(firebaseApp);
 
-    const MovimentRef = await addDoc(
-      collection(db, "users", email, "piggyBanks", piggyBankId, "moviments"),
-      moviment
-    );
+    try {
 
-    moviment.Id = MovimentRef.id
+      const collec = collection(
+        db,
+        "users",
+        email,
+        "piggyBanks",
+        piggyBankId,
+        "moviments"
+      )
 
 
-    return moviment
+      const MovimentRef = await addDoc(
+        collec,
+        moviment
+      );
+
+      moviment.Id = MovimentRef.id
+
+      return moviment
+    }
+    catch (e) {
+      console.log(e)
+      return moviment
+    }
   }
 
   async updatePiggyBank(piggyBank: PiggyBank, email: string) {

@@ -1,5 +1,5 @@
 import { ScreenBackground } from "@/components/Background/ScreenBackground";
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MyTheme } from "../Theme";
@@ -18,24 +18,23 @@ type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs"
 
 export default function LittleBox() {
 
-  const [visibleBalance, setVisibleBalance] = React.useState(false);
-
+  const [visibleBalance, setVisibleBalance] = useState(false);
   const navigation = useNavigation<StackScreenNavigationProp>();
 
   const { language } = useLanguageStore();
   const { user } = useUserStore();
-  const { piggyBanks, getPiggyBank } = usePiggyBankStore();
+  const { piggyBanks, getPiggyBanks } = usePiggyBankStore();
 
   function handleGoNewLittleBox() {
     navigation.navigate('NewLittleBox');
   }
 
-  function handleGoLittleBoxDetails(piggyBank: PiggyBank) {
-    navigation.navigate('LittleBoxDetails', { piggyBank });
+  function handleGoLittleBoxDetails(piggyBankId: string) {
+    navigation.navigate('LittleBoxDetails', { piggyBankId });
   }
 
   useEffect(() => {
-    getPiggyBank(user!.Email);
+    getPiggyBanks(user!.Email);
   }, [])
 
   return (
@@ -78,7 +77,7 @@ export default function LittleBox() {
                 balance={item.amountValue}
                 name={item.description}
                 progress={item.amountValue * 100 / item.goal}
-                onPress={() => handleGoLittleBoxDetails(item)}
+                onPress={() => handleGoLittleBoxDetails(item.id!)}
               />
             ))
           ) : (
