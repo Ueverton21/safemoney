@@ -1,9 +1,7 @@
 import * as React from "react";
-import {
-  BottomTabNavigationProp,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Home from "@/screens/Home";
 import LittleBox from "@/screens/LittleBox";
@@ -23,9 +21,13 @@ export type RootTabsList = {
 };
 
 type Props = NativeStackScreenProps<RootStackList, "Tabs">;
-
+const TAB_HEIGHT_ANDROID = 60;
+const TAB_HEIGHT_IOS = 80;
 export default function AppTabs(props: Props) {
   const Tab = createBottomTabNavigator<RootTabsList>();
+
+  const inset = useSafeAreaInsets().bottom + TAB_HEIGHT_ANDROID;
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -36,7 +38,7 @@ export default function AppTabs(props: Props) {
         tabBarShowLabel: false,
         tabBarStyle: {
           paddingTop: 10,
-          height: Platform.OS === "android" ? 60 : 80,
+          height: Platform.OS === "android" ? inset : TAB_HEIGHT_IOS,
           backgroundColor: "#4F4F4F",
           borderColor: "rgba(0,0,0,0)",
         },

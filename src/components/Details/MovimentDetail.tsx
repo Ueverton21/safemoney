@@ -1,5 +1,5 @@
 import { MyTheme } from "@/screens/Theme";
-import { Moviment } from "@/stores/MovimentType";
+import { Moviment } from "@/stores/MovimentTypes";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -14,7 +14,6 @@ interface MovimentDetailProps {
 export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) {
   const [isVisibleDelete, setIsVisibleDelete] = useState(false);
 
-  //fechar o alert sem esperar a promise de deletar
   function closeAlertFirst() {
     setIsVisibleDelete(false);
     handleRemove();
@@ -46,9 +45,19 @@ export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) 
         <View style={styles.info}>
           <Text style={styles.title}>{moviment.Description}</Text>
           {moviment.Type == "entry" ? (
-            <Text style={styles.value}>{"R$ " + moviment.Value}</Text>
+            <Text style={styles.value}>
+              {"R$ " +
+                moviment.Value.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+            </Text>
           ) : (
-            <Text style={styles.value}>{"R$ -" + moviment.Value}</Text>
+            <Text style={styles.value}>
+              {"R$ -" +
+                moviment.Value.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+            </Text>
           )}
         </View>
         <View
@@ -59,7 +68,9 @@ export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) 
             alignItems: "center",
           }}
         >
-          <Text style={styles.date}>{dateToText(moviment.Date)}</Text>
+          <Text style={styles.date}>
+            {moviment.Date && dateToText(moviment.Date)}
+          </Text>
         </View>
       </TouchableOpacity>
     </>

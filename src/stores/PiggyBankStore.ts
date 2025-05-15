@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { PiggyBank } from "./PiggyBankType";
-import { Moviment } from "./MovimentType";
+import { Moviment } from "./MovimentTypes";
 import { FirebasePiggyBank } from "@/firebase/firestore/FirestorePiggyBank";
 
 const firebasePiggyBank = new FirebasePiggyBank();

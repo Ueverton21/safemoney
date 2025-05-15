@@ -13,7 +13,7 @@ import { PiggyBank } from "@/stores/PiggyBankType";
 import { useRoute } from "@react-navigation/native";
 import { useLanguageStore } from "@/stores/LanguageStore";
 import { decimalMask } from "@/utils/Masks";
-import { Moviment } from "@/stores/MovimentType";
+import { Moviment } from "@/stores/MovimentTypes";
 import { MovimentDetail } from "@/components/Details/MovimentDetail";
 import { ButtonToast } from "@/components/Buttons/ButtonToast";
 

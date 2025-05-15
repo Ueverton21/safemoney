@@ -1,11 +1,17 @@
+import { addDigitZeroByNumber } from "@/firebase/firestore/FirestoreMoviment";
+
 const MINUTE = 60000;
 export function dateToText(date: Date): string {
   var dateNow = new Date();
 
   var dateSimple =
-    date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
   var dateNowSimple =
-    dateNow.getDate() + "/" + dateNow.getMonth() + "/" + dateNow.getFullYear();
+    dateNow.getDate() +
+    "/" +
+    (date.getMonth() + 1) +
+    "/" +
+    dateNow.getFullYear();
   var diff = dateNow.getTime() - date.getTime();
   if (diff < MINUTE) {
     return "Há alguns segundos";
@@ -14,6 +20,11 @@ export function dateToText(date: Date): string {
   } else if (dateSimple === dateNowSimple) {
     return "Hoje";
   } else {
-    return dateSimple;
+    var dayNumber = Number.parseInt(dateSimple.split("/")[0]);
+    var monthNumber = Number.parseInt(dateSimple.split("/")[1]);
+    var day = addDigitZeroByNumber(dayNumber);
+    var month = addDigitZeroByNumber(monthNumber);
+
+    return `${day}/${month}/${dateSimple.split("/")[2]}`;
   }
 }

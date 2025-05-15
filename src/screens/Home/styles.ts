@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   movimentItem: {
-    borderWidth: 2,
+    borderWidth: 0,
     paddingVertical: 6,
     paddingHorizontal: 10,
     width: "48%",
@@ -70,7 +70,6 @@ export const styles = StyleSheet.create({
   boxMovimentValue: {
     flexDirection: "row",
     alignItems: "flex-end",
-    justifyContent: "space-between",
   },
   movimentText: {
     fontSize: 18,
@@ -93,6 +92,6 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     color: MyTheme.colors.secondary,
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
 });
