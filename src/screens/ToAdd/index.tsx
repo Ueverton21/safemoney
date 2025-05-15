@@ -1,5 +1,11 @@
-import { ScrollView, View, ToastAndroid, Keyboard } from "react-native";
-import React, { useState } from "react";
+import {
+  ScrollView,
+  View,
+  ToastAndroid,
+  Keyboard,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState, useEffect } from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Toast from "react-native-toast-message";
 
@@ -15,39 +21,76 @@ import { styles } from "./styles";
 import { useMovimentStore } from "@/stores/MovimentStore";
 import { useUserStore } from "@/stores/UserStore";
 import { decimalMask } from "@/utils/Masks";
+import { Check } from "@/components/Check/Check";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ToAdd() {
   const [isEntry, setIsEntry] = useState(true);
   const [description, setDescription] = useState("");
   const [moneyValue, setMoneyValue] = useState("");
   const [listVisible, setListVisible] = useState(false);
+  const [isFixed, setIsFixed] = useState(false);
 
-  const { addMoviment } = useMovimentStore();
+  const { addMoviment, addExitFixedMoviment, loadExitBalance } =
+    useMovimentStore();
   const { user } = useUserStore();
 
+  /*Chamar a função para puxar o balanço fixo de saídas do mês atual,
+  assim evita problemas do usuário ao adicionar despesa fixa dê algum
+  conflito com meses antetiores 
+  */
+  async function loadExitMonthActualy() {
+    const emailStorage = await AsyncStorage.getItem("@email");
+    var date = new Date();
+    var monthSelect = date.getMonth();
+    var yearSelect = date.getFullYear();
+    await loadExitBalance(emailStorage!, monthSelect + 1, yearSelect);
+  }
+
   async function handleAddMoviment() {
+    await loadExitMonthActualy();
     if (description === "" || moneyValue === "") {
       Keyboard.dismiss();
       setTimeout(() => {
         showToastError();
       }, 500);
     } else {
-      addMoviment(
-        {
-          Date: new Date(),
-          Description: description,
-          Value: Number.parseFloat(moneyValue),
-          Type: isEntry ? "entry" : "exit",
-        },
-        user?.Email!
-      ).then(() => {
-        Keyboard.dismiss();
-        setTimeout(() => {
-          showToastSuccess();
-        }, 500);
-        setDescription("");
-        setMoneyValue("");
-      });
+      if (isFixed) {
+        addExitFixedMoviment(
+          {
+            Description: description,
+            Value: Number.parseFloat(moneyValue),
+          },
+          user?.Email!
+        ).then(() => {
+          Keyboard.dismiss();
+          setTimeout(() => {
+            showToastSuccess();
+          }, 500);
+          setDescription("");
+          setMoneyValue("");
+        });
+      } else {
+        var valuePoint =
+          moneyValue.split(",")[0] + "." + moneyValue.split(",")[1];
+
+        addMoviment(
+          {
+            Date: new Date(),
+            Description: description,
+            Value: Number.parseFloat(valuePoint),
+            Type: isEntry ? "entry" : "exit",
+          },
+          user?.Email!
+        ).then(() => {
+          Keyboard.dismiss();
+          setTimeout(() => {
+            showToastSuccess();
+          }, 500);
+          setDescription("");
+          setMoneyValue("");
+        });
+      }
     }
   }
   function showToastSuccess() {
@@ -132,6 +175,19 @@ export default function ToAdd() {
             </ScrollView>
           )}
         </View>
+        {!isEntry && (
+          <>
+            <TouchableOpacity onPress={() => setIsFixed(!isFixed)}>
+              <Check
+                selectedColor={MyTheme.colors.primary}
+                isSelected={isFixed}
+                text="Gasto fixo"
+              />
+            </TouchableOpacity>
+            <View style={{ marginBottom: 16 }} />
+          </>
+        )}
+
         <ButtonSubmit
           color={MyTheme.colors.primary}
           text="Confirmar"

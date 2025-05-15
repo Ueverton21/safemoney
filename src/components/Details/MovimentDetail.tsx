@@ -1,5 +1,5 @@
 import { MyTheme } from "@/screens/Theme";
-import { Moviment } from "@/stores/MovimentType";
+import { Moviment } from "@/stores/MovimentTypes";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -8,16 +8,28 @@ import { AlertConfirm } from "../Alerts/AlertConfirm";
 import { useMovimentStore } from "@/stores/MovimentStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function MovimentDetail(moviment: Moviment) {
-  const { removeMoviment } = useMovimentStore();
+type MovimentDetail = {
+  Id?: string;
+  Date?: Date;
+  Description: string;
+  Type: "entry" | "exit";
+  Value: number;
+};
+export function MovimentDetail(moviment: MovimentDetail) {
+  const { removeMoviment, removeExitMoviment } = useMovimentStore();
   const [isVisibleDelete, setIsVisibleDelete] = useState(false);
 
   async function handleRemove() {
     var emailStorage = await AsyncStorage.getItem("@email");
-    var month = moviment.Date.getMonth() + 1;
-    var year = moviment.Date.getFullYear();
+    var month = moviment.Date && moviment.Date.getMonth() + 1;
+    var year = moviment.Date && moviment.Date.getFullYear();
 
-    await removeMoviment(emailStorage!, month, year, moviment.Id!);
+    if (month && year) {
+      await removeMoviment(emailStorage!, month, year, moviment.Id!);
+    } else {
+      await removeExitMoviment(emailStorage!, moviment.Id!);
+    }
+
     setIsVisibleDelete(false);
   }
 
@@ -48,9 +60,19 @@ export function MovimentDetail(moviment: Moviment) {
         <View style={styles.info}>
           <Text style={styles.title}>{moviment.Description}</Text>
           {moviment.Type == "entry" ? (
-            <Text style={styles.value}>{"R$ " + moviment.Value}</Text>
+            <Text style={styles.value}>
+              {"R$ " +
+                moviment.Value.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+            </Text>
           ) : (
-            <Text style={styles.value}>{"R$ -" + moviment.Value}</Text>
+            <Text style={styles.value}>
+              {"R$ -" +
+                moviment.Value.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                })}
+            </Text>
           )}
         </View>
         <View
@@ -61,7 +83,9 @@ export function MovimentDetail(moviment: Moviment) {
             alignItems: "center",
           }}
         >
-          <Text style={styles.date}>{dateToText(moviment.Date)}</Text>
+          <Text style={styles.date}>
+            {moviment.Date && dateToText(moviment.Date)}
+          </Text>
         </View>
       </TouchableOpacity>
     </>

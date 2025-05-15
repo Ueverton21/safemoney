@@ -7,7 +7,7 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { Moviment } from "@/stores/MovimentType";
+import { Moviment } from "@/stores/MovimentTypes";
 import { useUserStore } from "@/stores/UserStore";
 
 export async function ToAddUser(
@@ -61,17 +61,15 @@ export async function getUserFirestore(email: string): Promise<User | null> {
   }
 }
 
-export async function updateBalance(moviment: Moviment) {
+export async function updateBalance(value: number, type: "entry" | "exit") {
   const db = getFirestore(firebaseApp);
   const { user } = useUserStore.getState();
-  console.log(user);
+
   try {
     const docRef = doc(db, "users", user!.Email);
 
     const balanceUpdate =
-      moviment.Type == "entry"
-        ? user!.Balance + moviment.Value
-        : user!.Balance - moviment.Value;
+      type == "entry" ? user!.Balance + value : user!.Balance - value;
 
     const userUpdate: User = {
       Balance: balanceUpdate,
@@ -82,8 +80,6 @@ export async function updateBalance(moviment: Moviment) {
     };
 
     await setDoc(docRef, userUpdate, { merge: true });
-
-    return moviment;
   } catch (error) {
     console.log(error);
     throw error;

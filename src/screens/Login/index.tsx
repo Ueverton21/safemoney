@@ -36,7 +36,7 @@ export default function Login({ navigation }: Props) {
 
   const { language } = useLanguageStore();
   const { getUser } = useUserStore();
-  const { getMovimentsByMonth } = useMovimentStore();
+  const { getMovimentsByMonth, getExitMoviments } = useMovimentStore();
 
   function executeStores(email: string) {
     getUser(email!);
@@ -44,6 +44,7 @@ export default function Login({ navigation }: Props) {
     var monthSelect = date.getMonth();
     var yearSelect = date.getFullYear();
     getMovimentsByMonth(email!, monthSelect + 1, yearSelect);
+    getExitMoviments(email!);
   }
 
   useEffect(() => {
