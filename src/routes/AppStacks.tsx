@@ -14,7 +14,6 @@ import GroupDetails from "@/screens/GroupDetails";
 import ToAddPeople from "@/screens/ToAddPeoples";
 
 import { useLanguageStore } from "@/stores/LanguageStore";
-import { PiggyBank } from "@/stores/PiggyBankType";
 
 export type RootStackList = {
   Login: undefined;

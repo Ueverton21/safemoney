@@ -1,7 +1,7 @@
 import { ScreenBackground } from "@/components/Background/ScreenBackground";
 import { Panel } from "@/components/panel";
 import { use, useEffect, useState } from "react";
-import { FlatList, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { styles } from "./style";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { MyTheme } from "../Theme";
@@ -15,6 +15,7 @@ import { useLanguageStore } from "@/stores/LanguageStore";
 import { decimalMask } from "@/utils/Masks";
 import { Moviment } from "@/stores/MovimentType";
 import { MovimentDetail } from "@/components/Details/MovimentDetail";
+import { ButtonToast } from "@/components/Buttons/ButtonToast";
 
 type RouteParams = {
   piggyBankId: string;
@@ -22,11 +23,21 @@ type RouteParams = {
 
 export default function LittleBoxDetails() {
   const [piggyBank, setpiggyBank] = useState<PiggyBank | null>(null)
+  const [editGoalField, setEditGoalField] = useState('');
   const [isEntry, setIsEntry] = useState(true);
   const [moneyValue, setMoneyValue] = useState('');
 
+  const [buttonToastIsVisible, setButtonToastIsVisible] = useState(false);
+
   const { user } = useUserStore();
-  const { movimentsInPiggyBank, addMovimentInPiggyBank, getMovimentsOfPiggyBank, getPiggyBank, } = usePiggyBankStore();
+  const {
+    movimentsInPiggyBank,
+    addMovimentInPiggyBank,
+    getMovimentsOfPiggyBank,
+    getPiggyBank,
+    removeMovimentInPiggyBank,
+    editPiggyBank,
+  } = usePiggyBankStore();
   const { language } = useLanguageStore();
 
   const route = useRoute();
@@ -34,22 +45,61 @@ export default function LittleBoxDetails() {
 
   const { piggyBankId } = route.params as RouteParams;
 
+  async function fetchPiggyBank() {
+    const piggyBankData = await getPiggyBank(user!.Email, piggyBankId)
+    if (piggyBankData) {
+      setpiggyBank(piggyBankData)
+      setEditGoalField(piggyBankData.goal.toString())
+      await getMovimentsOfPiggyBank(piggyBankData.id!, user!.Email);
+    }
+  }
+
   async function handleAddMoviment(moviment: Moviment) {
     if (piggyBank) {
+      if (moviment.Type === 'entry' && piggyBank.amountValue + moviment.Value > piggyBank.goal) {
+        return console.log('altere sua meta para guardar mais dineiro')
+      }
+      if (moviment.Type === 'exit' && piggyBank.amountValue - moviment.Value < 0) {
+        return console.log('você está tirando mais do que guardou')
+      }
       setMoneyValue('');
       await addMovimentInPiggyBank(piggyBank, user!.Email, moviment);
       await getMovimentsOfPiggyBank(piggyBank.id!, user!.Email);
     }
+    await fetchPiggyBank();
+  }
+
+  async function handleRemoveMoviment(moviment: Moviment) {
+    if (piggyBank) {
+      if (moviment.Type === 'entry' && piggyBank.amountValue - moviment.Value < 0) {
+        return console.log('não é possível que seu saldo fique negativo')
+      }
+      if (moviment.Type === 'exit' && piggyBank.amountValue + moviment.Value > piggyBank.goal) {
+        return console.log('aumente sua meta para que seu saldo possa ser maior')
+      }
+      await removeMovimentInPiggyBank(piggyBank, user!.Email, moviment);
+      await getMovimentsOfPiggyBank(piggyBank.id!, user!.Email);
+    }
+    await fetchPiggyBank();
+  }
+
+  async function handleEditPiggyBank() {
+    Keyboard.dismiss();
+    setButtonToastIsVisible(false);
+    if (piggyBank) {
+      const updatedPiggyBank: PiggyBank = {
+        id: piggyBank.id,
+        amountValue: piggyBank.amountValue,
+        dateGoal: piggyBank.dateGoal,
+        description: piggyBank.description,
+        goal: parseFloat(editGoalField)
+      }
+      fetchPiggyBank();
+      await editPiggyBank(updatedPiggyBank, user!.Email)
+    }
   }
 
   useEffect(() => {
-    async function fetchPiggyBank() {
-      const piggyBankData = await getPiggyBank(user!.Email, piggyBankId)
-      if (piggyBankData) {
-        setpiggyBank(piggyBankData)
-        await getMovimentsOfPiggyBank(piggyBankData.id!, user!.Email);
-      }
-    }
     fetchPiggyBank();
   }, [piggyBankId, user])
 
@@ -58,27 +108,39 @@ export default function LittleBoxDetails() {
   }
 
   return (
-    <ScreenBackground title="Carro">
+    <ScreenBackground title={piggyBank.description}>
+
       <View style={{ flex: 1, paddingBottom: 20 }}>
         <KeyboardAvoidingView
-          style={{ flexGrow: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={150}
+          keyboardVerticalOffset={140}
         >
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{}} keyboardShouldPersistTaps="handled">
             <Panel
               balance={piggyBank.amountValue}
               progress={piggyBank.amountValue * 100 / piggyBank.goal}
               date={piggyBank.dateGoal.toDateString()}
             />
 
-            <TouchableOpacity
+            <View
               style={styles.buttonGoal}
             >
-              <Text style={styles.goal}>
-                meta: {language?.CoinSymbol.Symbol} {piggyBank.goal}
+              <Text style={styles.goalText}>
+                meta: {language?.CoinSymbol.Symbol}
               </Text>
-            </TouchableOpacity>
+              <TouchableWithoutFeedback>
+                <TextInput
+                  onFocus={() => setButtonToastIsVisible(true)}
+                  onBlur={() => setButtonToastIsVisible(false)}
+                  style={styles.goalInput}
+                  value={parseFloat(editGoalField) === piggyBank.goal ? parseFloat(editGoalField).toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  }) : editGoalField}
+                  onChangeText={(text) => setEditGoalField(decimalMask(text))}
+                />
+              </TouchableWithoutFeedback>
+            </View>
             <View style={styles.buttonContainer}>
               <View style={{ width: '47%' }}>
                 <ButtonSubmit
@@ -125,15 +187,21 @@ export default function LittleBoxDetails() {
               />
             </View>
           </ScrollView>
+          <ButtonToast action={buttonToastIsVisible ? 'open' : 'close'} confirm={handleEditPiggyBank} />
         </KeyboardAvoidingView>
         <FlatList
           data={movimentsInPiggyBank}
           keyExtractor={(item) => item.Id!}
-          renderItem={({ item }) => (
-            <MovimentDetail Date={item.Date} Description="" Type={item.Type} Value={item.Value} Id={item.Id} />
-          )}
+          renderItem={({ item }) => {
+            var obj = item;
+            obj.Description = obj.Date.toLocaleDateString('pt-BR', { weekday: 'long' }).toString()
+            return <MovimentDetail
+              moviment={obj}
+              handleRemove={() => handleRemoveMoviment(item)}
+            />
+          }}
         />
       </View>
-    </ScreenBackground>
+    </ScreenBackground >
   );
 }

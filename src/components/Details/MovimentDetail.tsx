@@ -5,27 +5,25 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { dateToText } from "@/utils/TextDateMoviment";
 import { AlertConfirm } from "../Alerts/AlertConfirm";
-import { useMovimentStore } from "@/stores/MovimentStore";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export function MovimentDetail(moviment: Moviment) {
-  const { removeMoviment } = useMovimentStore();
+interface MovimentDetailProps {
+  moviment: Moviment,
+  handleRemove: () => Promise<void>
+}
+
+export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) {
   const [isVisibleDelete, setIsVisibleDelete] = useState(false);
 
-  async function handleRemove() {
-    var emailStorage = await AsyncStorage.getItem("@email");
-    var month = moviment.Date.getMonth() + 1;
-    var year = moviment.Date.getFullYear();
-
-    await removeMoviment(emailStorage!, month, year, moviment.Id!);
+  //fechar o alert sem esperar a promise de deletar
+  function closeAlertFirst() {
     setIsVisibleDelete(false);
+    handleRemove();
   }
-
   return (
     <>
       <AlertConfirm
         isVisible={isVisibleDelete}
-        onConfirm={() => handleRemove()}
+        onConfirm={() => closeAlertFirst()}
         onCancel={() => setIsVisibleDelete(false)}
         text="Deseja excluir essa movimentação?"
         title="Excluir"

@@ -3,15 +3,21 @@ import { MyTheme } from "../Theme";
 
 export const styles = StyleSheet.create({
   buttonGoal: {
+    flexDirection: 'row',
     marginTop: 20,
     marginBottom: 20,
-    paddingVertical: 8,
     paddingHorizontal: 10,
     backgroundColor: MyTheme.colors.secondary,
     borderRadius: 6,
-    alignSelf: 'center'
+
+    alignSelf: 'center',
+    alignItems: 'center',
   },
-  goal: {
+  goalInput: {
+    color: MyTheme.colors.white,
+    fontSize: 18,
+  },
+  goalText: {
     color: MyTheme.colors.white,
     fontSize: 18,
   },

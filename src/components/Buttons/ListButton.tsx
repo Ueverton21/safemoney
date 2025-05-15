@@ -1,12 +1,13 @@
 import { MyTheme } from "@/screens/Theme";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, TouchableHighlightProps, View } from "react-native";
+import { Icons, VariantIconName } from "../Icons";
 
 type ListButtonType = TouchableHighlightProps & {
-  title: string;
+  icon: VariantIconName;
   children?: React.ReactNode;
 }
-export function ListButton({ title, children, ...rest }: ListButtonType) {
+export function ListButton({ icon, children, ...rest }: ListButtonType) {
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -23,22 +24,7 @@ export function ListButton({ title, children, ...rest }: ListButtonType) {
         setIsFocused(false)
       }}
     >
-      <View
-        style={
-          [
-            styles.container,
-            {
-              justifyContent: children ? 'space-between' : 'center',
-              backgroundColor: children ? 'transparent' : MyTheme.colors.background,
-            }
-          ]
-        }
-      >
-        <Text style={styles.title}>{title}</Text>
-        {
-          children ? <>{children}</> : null
-        }
-      </View>
+      <Icons variant={icon} />
     </TouchableHighlight>
   )
 }
@@ -56,9 +42,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end'
   },
-  title: {
-    fontSize: 16,
-    color: MyTheme.colors.white,
-    marginBottom: 9
-  }
 });

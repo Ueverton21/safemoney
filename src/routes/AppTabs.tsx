@@ -13,7 +13,6 @@ import ToAdd from "@/screens/ToAdd";
 import { Platform, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackList } from "./AppStacks";
-import NewLittleBox from "@/screens/NewLittleBox";
 
 export type RootTabsList = {
   Home: undefined;

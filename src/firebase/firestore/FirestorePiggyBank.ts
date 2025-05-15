@@ -1,8 +1,8 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
-  getDoc,
   getDocs,
   getFirestore,
   serverTimestamp,
@@ -41,31 +41,13 @@ export class FirebasePiggyBank {
       throw error;
     }
   }
-  async getPiggyBank(email: string, piggyBankId: string) {
-    const db = getFirestore(firebaseApp);
-
-    try {
-      const piggyBankRef = doc(db, "users", email, "piggyBanks", piggyBankId);
-      const docSnap = (await getDoc(piggyBankRef));
-
-      if (docSnap.data()) {
-        return {
-          ...docSnap.data(),
-          dateGoal: docSnap.data()!.dateGoal.toDate(),
-        } as PiggyBank;
-      }
-    } catch (error) {
-      console.log(error)
-    }
-
-  }
   async newPiggyBank(
     piggyBank: PiggyBank,
     email: string
   ): Promise<PiggyBank> {
     const db = getFirestore(firebaseApp);
 
-    // Garante que o subdocumento 'piggyBanks' do usuário exista
+    // Garante que a coleção 'piggyBanks' do usuário exista
     await setDoc(
       doc(db, "users", email),
       {
@@ -74,19 +56,36 @@ export class FirebasePiggyBank {
       { merge: true }
     );
 
+    const piggyBankRef = doc(
+      collection(db, "users", email, "piggyBanks"),
+    );
     try {
-      const piggyBankRef = await addDoc(
-        collection(db, "users", email, "piggyBanks"),
-        piggyBank,
-      );
 
+      await setDoc(piggyBankRef, piggyBank)
 
-      console.log(piggyBankRef.id)
       piggyBank.id = piggyBankRef.id;
 
-      console.log(piggyBank)
       return piggyBank;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async removePiggyBank(piggyBankId: string, email: string): Promise<void> {
+    const db = getFirestore(firebaseApp);
+
+    try {
+      const docPiggyBank = doc(
+        db,
+        "users",
+        email,
+        "piggyBanks",
+        piggyBankId
+      );
+
+      await deleteDoc(docPiggyBank);
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -155,13 +154,36 @@ export class FirebasePiggyBank {
     }
   }
 
+  async removeMovimentInPiggyBank(
+    piggyBankId: string,
+    email: string,
+    movimentId: string
+  ) {
+    const db = getFirestore(firebaseApp);
+
+    try {
+      const docMoviment = doc(
+        db,
+        "users",
+        email,
+        "piggyBanks",
+        piggyBankId,
+        "moviments",
+        movimentId
+      );
+      await deleteDoc(docMoviment)
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   async updatePiggyBank(piggyBank: PiggyBank, email: string) {
     const db = getFirestore(firebaseApp);
 
     const PiggyBankRef = doc(db, "users", email, "piggyBanks", piggyBank.id!);
 
     await updateDoc(PiggyBankRef, piggyBank);
-    console.log('funcionou')
   }
 
 }

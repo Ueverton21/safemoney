@@ -16,6 +16,7 @@ import { useMovimentStore } from "@/stores/MovimentStore";
 import { getTotalEntries, getTotalExits } from "@/utils/CalculatorMoviments";
 import { addDigitZeroByMonth } from "@/firebase/firestore/FirestoreMoviment";
 import { MovimentDetail } from "@/components/Details/MovimentDetail";
+import { Moviment } from "@/stores/MovimentType";
 
 export default function Home() {
   const [visibleBalance, setVisibleBalance] = useState(false);
@@ -27,13 +28,20 @@ export default function Home() {
     addDigitZeroByMonth(date.getMonth() + 1) + "-" + date.getFullYear()
   );
   const { user } = useUserStore();
-  const { moviments, months, getMovimentsByMonth } = useMovimentStore();
+  const { moviments, months, getMovimentsByMonth, removeMoviment } = useMovimentStore();
 
   function handleSelectMonth(monthSelect: string) {
     var monthInt = Number.parseInt(monthSelect.split("-")[0]);
     var yearSelect = Number.parseInt(monthSelect.split("-")[1]);
 
     getMovimentsByMonth(user?.Email!, monthInt, yearSelect);
+  }
+
+  async function handleRemove(moviment: Moviment) {
+    var month = moviment.Date.getMonth() + 1;
+    var year = moviment.Date.getFullYear();
+
+    await removeMoviment(user!.Email, month, year, moviment.Id!);
   }
 
   const entriesSum =
@@ -183,15 +191,12 @@ export default function Home() {
               Histórico de movimentação
             </Text>
             <ScrollView>
-              {moviments?.map((item, index) => {
+              {moviments?.map((item) => {
                 return (
                   <MovimentDetail
-                    Id={item.Id}
-                    Date={item.Date}
-                    Description={item.Description}
-                    Type={item.Type}
-                    Value={item.Value}
-                    key={index}
+                    moviment={item}
+                    handleRemove={() => handleRemove(item)}
+                    key={item.Id!}
                   />
                 );
               })}

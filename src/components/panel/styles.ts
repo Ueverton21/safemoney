@@ -4,16 +4,17 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
+    gap: 15
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
     alignItems: 'center',
+    gap: 15
   },
   name: {
-    fontSize: 22,
-    color: MyTheme.colors.white
+    fontSize: 18,
+    color: MyTheme.colors.white,
+    maxWidth: '55%'
   },
   buttonDate: {
     paddingVertical: 6,
@@ -29,10 +30,16 @@ export const styles = StyleSheet.create({
     marginRight: 5,
   },
   balance: {
-    fontSize: 24,
+    fontSize: 18,
     color: MyTheme.colors.white,
-    textAlign: 'center',
-    marginBottom: 15,
+    flex: 1,
+    textAlign: 'right'
+  },
+  balanceInDetail: {
+    fontSize: 20,
+    color: MyTheme.colors.white,
+    flex: 1,
+    textAlign: 'center'
   },
   progressContainer: {
     width: '100%',

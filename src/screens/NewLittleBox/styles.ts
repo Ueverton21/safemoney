@@ -17,5 +17,9 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     backgroundColor: MyTheme.colors.background,
     alignSelf: 'center',
-  }
+  },
+  goalValueLabel: {
+    color: MyTheme.colors.white,
+    fontSize: 22,
+  },
 })
