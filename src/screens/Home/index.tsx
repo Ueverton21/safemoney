@@ -69,8 +69,6 @@ export default function Home() {
   const exitsSum =
     moviments && moviments.length > 0 ? getTotalExits(moviments) : 0;
 
-  console.log(exitsSum);
-  console.log(exitsFixedBalance);
   return (
     <View style={styles.main}>
       {moviments == null ? (
