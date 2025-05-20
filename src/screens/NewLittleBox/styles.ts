@@ -5,14 +5,14 @@ export const styles = StyleSheet.create({
   Container: {
     flex: 1,
     justifyContent: 'space-between',
-    marginBottom: 20
+    paddingBottom: 20
   },
   listcontainer: {
     position: 'absolute',
     top: 48,
     width: '98%',
-    maxHeight: 180,
     paddingHorizontal: 5,
+    paddingVertical: 10,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     backgroundColor: MyTheme.colors.background,

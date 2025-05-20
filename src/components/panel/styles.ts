@@ -9,37 +9,20 @@ export const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 15
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    gap: 5
   },
   name: {
     fontSize: 18,
     color: MyTheme.colors.white,
     maxWidth: '55%'
   },
-  buttonDate: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    backgroundColor: MyTheme.colors.secondary,
-    borderRadius: 6,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  date: {
-    color: MyTheme.colors.white,
-    fontSize: 14,
-    marginRight: 5,
-  },
   balance: {
     fontSize: 18,
     color: MyTheme.colors.white,
     flex: 1,
     textAlign: 'right'
-  },
-  balanceInDetail: {
-    fontSize: 20,
-    color: MyTheme.colors.white,
-    flex: 1,
-    textAlign: 'center'
   },
   progressContainer: {
     width: '100%',

@@ -2,24 +2,30 @@ import { StyleSheet } from "react-native";
 import { MyTheme } from "../Theme";
 
 export const styles = StyleSheet.create({
-  buttonGoal: {
+  row: {
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: MyTheme.colors.secondary,
-    borderRadius: 6,
-
-    alignSelf: 'center',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginBottom: 20
+  },
+  buttonGoal: {
+    minWidth: '62%',
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  goalInput: {
-    color: MyTheme.colors.white,
-    fontSize: 18,
+  buttonDateGoal: {
+    width: '38%',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  goalText: {
+  editInput: {
     color: MyTheme.colors.white,
-    fontSize: 18,
+    fontSize: 16,
+  },
+  labelText: {
+    color: MyTheme.colors.white,
+    fontSize: 16,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -35,5 +41,19 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 1,
     borderColor: MyTheme.colors.secondary
+  },
+  listMovimentsEmptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20
+  },
+  listMovimentsEmptyText: {
+    color: MyTheme.colors.placeholder_color,
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 20,
+    fontWeight: 300,
+    letterSpacing: 0.8
   }
 });

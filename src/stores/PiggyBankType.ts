@@ -1,5 +1,3 @@
-import { Moviment } from "./MovimentType";
-
 export type PiggyBank = {
   id?: string;
   description: string;

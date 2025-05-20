@@ -1,6 +1,6 @@
 import { ScreenBackground } from "@/components/Background/ScreenBackground";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MyTheme } from "../Theme";
 import { styles } from "./styles";
@@ -13,10 +13,12 @@ import { useLanguageStore } from "@/stores/LanguageStore";
 import { usePiggyBankStore } from "@/stores/PiggyBankStore";
 import { useUserStore } from "@/stores/UserStore";
 import Toast from "react-native-toast-message";
+import { Loading } from "@/components/Loading";
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
 export default function LittleBox() {
+  const [isLoading, setIsLoading] = useState(true);
   const [visibleBalance, setVisibleBalance] = useState(false);
   const navigation = useNavigation<StackScreenNavigationProp>();
 
@@ -59,7 +61,9 @@ export default function LittleBox() {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetchPiggyBanks();
+    setIsLoading(false);
   }, [removePiggyBank])
 
   return (
@@ -68,51 +72,68 @@ export default function LittleBox() {
     >
       <Toast position="bottom" bottomOffset={30} />
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, marginBottom: 32 }}>
-        <View
-          style={styles.totalBox}
-        >
-          <Text
-            style={styles.totalTitle}
-          >
-            {language?.LittleBox.Amount}
-          </Text>
-          <Text
-            style={styles.totalValue}
-          >
-            {language?.CoinSymbol.Symbol} {amountValue}
-          </Text>
-          <Feather
-            name={visibleBalance ? "eye-off" : "eye"}
-            size={20}
-            color={MyTheme.colors.white}
-          />
-        </View>
-        <View style={{ width: '20%' }}>
-          <ButtonSubmit color={MyTheme.colors.primary} onPress={handleGoNewLittleBox} smallHeight>
-            <Feather name="plus" size={22} color={MyTheme.colors.white} />
-          </ButtonSubmit>
-        </View>
-      </View>
+      {
+        !isLoading ? (
+          <>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, marginBottom: 32, flexWrap: 'wrap' }}>
+              <View
+                style={styles.totalBox}
+              >
+                <Text
+                  style={styles.totalTitle}
+                >
+                  {language?.LittleBox.Amount}
+                </Text>
+                <Text
+                  style={styles.totalValue}
+                >
+                  {language?.CoinSymbol.Symbol} {amountValue}
+                </Text>
+                <Feather
+                  name={visibleBalance ? "eye-off" : "eye"}
+                  size={20}
+                  color={MyTheme.colors.white}
+                />
+              </View>
+              <View style={{ width: '20%' }}>
+                <ButtonSubmit color={MyTheme.colors.primary} onPress={handleGoNewLittleBox} smallHeight>
+                  <Feather name="plus" size={22} color={MyTheme.colors.white} />
+                </ButtonSubmit>
+              </View>
+            </View>
 
-      <ScrollView contentContainerStyle={{ gap: 25 }}>
-        {
-          piggyBanks && piggyBanks?.length > 0 ? (
-            piggyBanks.map((item) => (
-              <Panel
-                key={item.id}
-                balance={item.amountValue}
-                name={item.description}
-                progress={item.amountValue * 100 / item.goal}
-                onPress={() => handleGoLittleBoxDetails(item.id!)}
-                handleRemove={() => handleDeletePiggyBank(item.id!)}
-              />
-            ))
-          ) : (
-            <></>
-          )
-        }
-      </ScrollView>
+            <FlatList
+              data={piggyBanks ?? []}
+              keyExtractor={(item) => item.id!}
+              renderItem={({ item }) => {
+                return (
+                  <Panel
+                    balance={item.amountValue}
+                    name={item.description}
+                    progress={item.amountValue * 100 / item.goal}
+                    onPress={() => handleGoLittleBoxDetails(item.id!)}
+                    handleRemove={() => handleDeletePiggyBank(item.id!)}
+                  />
+                )
+              }}
+              contentContainerStyle={{
+                flex: 1
+              }}
+              ListEmptyComponent={() => {
+                return (
+                  <View style={styles.listMovimentsEmptyContainer}>
+                    <Text style={styles.listMovimentsEmptyText}>
+                      Crie suas caixinhas e organize seu dinheiro da maneira que quiser
+                    </Text>
+                  </View>
+                )
+              }}
+            />
+          </>
+        ) : (
+          <Loading />
+        )
+      }
     </ScreenBackground>
   );
 }

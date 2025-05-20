@@ -71,8 +71,9 @@ export const usePiggyBankStore = create<PiggyBankState>((set) => ({
 
   getMovimentsOfPiggyBank: async (email: string, piggyBankId: string) => {
     const moviments = await firebasePiggyBank.movimentsOfPiggyBank(piggyBankId, email);
+    const orgMoviments = moviments.sort((a, b) => b.Date.getTime() - a.Date.getTime());
     set({
-      movimentsInPiggyBank: moviments
+      movimentsInPiggyBank: orgMoviments
     })
   },
 

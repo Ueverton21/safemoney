@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { firebaseApp } from "../config";
 import { PiggyBank } from "@/stores/PiggyBankType";
-import { Moviment } from "@/stores/MovimentType";
+import { Moviment } from "@/stores/MovimentTypes";
 
 export class FirebasePiggyBank {
   async piggyBanks(email: string): Promise<PiggyBank[]> {
@@ -82,6 +82,14 @@ export class FirebasePiggyBank {
         "piggyBanks",
         piggyBankId
       );
+
+      const collecMoviments = collection(
+        docPiggyBank, "moviments"
+      );
+      const snapshot = await getDocs(collecMoviments);
+
+      const deletePromises = snapshot.docs.map((docMoviment) => deleteDoc(docMoviment.ref));
+      await Promise.all(deletePromises);
 
       await deleteDoc(docPiggyBank);
     } catch (error) {
