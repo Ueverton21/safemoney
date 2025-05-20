@@ -41,6 +41,7 @@ export default function Home() {
     getMovimentsByMonth,
     exitBalanceByMonth,
     exitMoviments,
+    removeMoviment
   } = useMovimentStore();
 
   const exitsFixedBalance = exitBalanceByMonth?.fixedExitBalance! || 0;
@@ -59,6 +60,13 @@ export default function Home() {
     movimentTypeToList == "variable"
       ? setMovimentTypeToList("fixed")
       : setMovimentTypeToList("variable");
+  }
+
+  async function handleRemove(moviment: Moviment) {
+    var month = moviment.Date.getMonth() + 1;
+    var year = moviment.Date.getFullYear();
+
+    await removeMoviment(user!.Email, month, year, moviment.Id!);
   }
 
   const entriesSum =
@@ -243,12 +251,9 @@ export default function Home() {
                     {moviments?.map((item, index) => {
                       return (
                         <MovimentDetail
-                          Id={item.Id}
-                          Date={item.Date}
-                          Description={item.Description}
-                          Type={item.Type}
-                          Value={item.Value}
-                          key={index}
+                          moviment={item}
+                          handleRemove={() => handleRemove(item)}
+                          key={item.Id!}
                         />
                       );
                     })}
@@ -258,11 +263,9 @@ export default function Home() {
                     {exitMoviments?.map((item, index) => {
                       return (
                         <MovimentDetail
-                          Id={item.Id}
-                          Description={item.Description}
-                          Type="exit"
-                          Value={item.Value}
-                          key={index}
+                          moviment={{ ...item, Type: 'exit', Date: new Date }}
+                          handleRemove={async () => { }}
+                          key={item.Id!}
                         />
                       );
                     })}

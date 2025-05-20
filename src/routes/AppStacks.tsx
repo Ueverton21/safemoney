@@ -22,7 +22,9 @@ export type RootStackList = {
   Profile: undefined;
   NewLittleBox: undefined;
   NewGroup: undefined;
-  LittleBoxDetails: undefined;
+  LittleBoxDetails: {
+    piggyBankId: string;
+  };
   GroupDetails: undefined;
   ToAddPeople: undefined;
 };
