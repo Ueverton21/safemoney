@@ -1,19 +1,31 @@
-import { ScreenBackground } from "@/components/Background/ScreenBackground";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  ToastAndroid,
+  Platform,
+  Text,
+  View
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { MyTheme } from "../Theme";
-import { styles } from "./styles";
-import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
+import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackList } from "@/routes/AppStacks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Panel } from "@/components/panel";
+
 import { useLanguageStore } from "@/stores/LanguageStore";
 import { usePiggyBankStore } from "@/stores/PiggyBankStore";
 import { useUserStore } from "@/stores/UserStore";
-import Toast from "react-native-toast-message";
+import { MyTheme } from "../Theme";
+import { RootStackList } from "@/routes/AppStacks";
+
+import { ScreenBackground } from "@/components/Background/ScreenBackground";
+import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
+import { Panel } from "@/components/panel";
 import { Loading } from "@/components/Loading";
+
+import { styles } from "./styles";
+
+
 
 type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "Tabs">;
 
@@ -26,13 +38,21 @@ export default function LittleBox() {
   const { user } = useUserStore();
   const { piggyBanks, getPiggyBanks, removePiggyBank } = usePiggyBankStore();
 
-  const amountValue = piggyBanks ? piggyBanks.reduce((acc, item) => acc + item.amountValue, 0).toLocaleString('pt-BR', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }) : '0,00'
+  const amountValue = piggyBanks && piggyBanks
+    .reduce((acc, item) => acc + item.amountValue, 0)
+    .toLocaleString(
+      language!.Name === 'en' ? 'en-US' : 'pt-BR', {
+      minimumIntegerDigits: 2,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })
 
   function handleGoNewLittleBox() {
-    navigation.navigate('NewLittleBox');
+    if (piggyBanks!.length >= 5) {
+      showToastMaxNumberPiggyBank();
+    } else {
+      navigation.navigate('NewLittleBox');
+    }
   }
 
   function handleGoLittleBoxDetails(piggyBankId: string) {
@@ -40,7 +60,6 @@ export default function LittleBox() {
   }
 
   async function handleDeletePiggyBank(piggyBankId: string) {
-    console.log('sim')
     await removePiggyBank(piggyBankId, user!.Email).then(() => {
       showToastRemovedPiggyBank();
     })
@@ -52,12 +71,31 @@ export default function LittleBox() {
   }
 
   function showToastRemovedPiggyBank() {
-    Toast.show({
-      type: "success",
-      text1: "Remover",
-      text2: "Caixinha removida",
-      visibilityTime: 1500,
-    });
+    Platform.OS === 'ios'
+      ? Toast.show({
+        type: "success",
+        text1: language!.LittleBox.Remove,
+        text2: language!.LittleBox.PiggyBankRemoved,
+        visibilityTime: 1500,
+      })
+      : ToastAndroid.show(
+        language!.LittleBox.PiggyBankRemoved,
+        ToastAndroid.SHORT,
+      );
+  }
+
+  function showToastMaxNumberPiggyBank() {
+    Platform.OS === 'ios'
+      ? Toast.show({
+        type: "error",
+        text1: language!.LittleBox.Remove,
+        text2: language!.LittleBox.PiggyBankRemoved,
+        visibilityTime: 1500,
+      })
+      : ToastAndroid.show(
+        language!.LittleBox.Remove,
+        ToastAndroid.SHORT,
+      );
   }
 
   useEffect(() => {
@@ -82,18 +120,29 @@ export default function LittleBox() {
                 <Text
                   style={styles.totalTitle}
                 >
-                  {language?.LittleBox.Amount}
+                  {language!.LittleBox.Amount}
                 </Text>
-                <Text
-                  style={styles.totalValue}
+                {
+                  visibleBalance ? (
+                    <Text
+                      style={styles.totalValue}
+                    >
+                      {language!.CoinSymbol.Symbol} {amountValue}
+                    </Text>
+                  ) : (
+                    <View style={styles.balanceHidden} />
+                  )
+                }
+                <Pressable
+                  onPress={() => setVisibleBalance(!visibleBalance)}
                 >
-                  {language?.CoinSymbol.Symbol} {amountValue}
-                </Text>
-                <Feather
-                  name={visibleBalance ? "eye-off" : "eye"}
-                  size={20}
-                  color={MyTheme.colors.white}
-                />
+                  <Feather
+                    name={visibleBalance ? "eye-off" : "eye"}
+                    size={20}
+                    color={MyTheme.colors.white}
+                  />
+                </Pressable>
+
               </View>
               <View style={{ width: '20%' }}>
                 <ButtonSubmit color={MyTheme.colors.primary} onPress={handleGoNewLittleBox} smallHeight>
@@ -108,6 +157,7 @@ export default function LittleBox() {
               renderItem={({ item }) => {
                 return (
                   <Panel
+                    visibleBalance={visibleBalance}
                     balance={item.amountValue}
                     name={item.description}
                     progress={item.amountValue * 100 / item.goal}
@@ -117,13 +167,14 @@ export default function LittleBox() {
                 )
               }}
               contentContainerStyle={{
-                flex: 1
+                flex: 1,
+                gap: 25
               }}
               ListEmptyComponent={() => {
                 return (
                   <View style={styles.listMovimentsEmptyContainer}>
                     <Text style={styles.listMovimentsEmptyText}>
-                      Crie suas caixinhas e organize seu dinheiro da maneira que quiser
+                      {language!.LittleBox.ListEmpty}
                     </Text>
                   </View>
                 )

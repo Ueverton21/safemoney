@@ -19,33 +19,63 @@ type CreateLanguage = {
 type HomeLanguage = {
   Balance: string;
   Monthly: LanguageOption[];
+  Entries: string;
+  Expenses: string;
+  MonthlyBalance: string;
+  TransactionHistory: string;
+  Variables: string;
+  FixedExpenses: string;
 };
 
+type ProfileLanguage = {
+  Title: string;
+  Name: string;
+  ChangePassword: string;
+  CurrentPassword: string;
+  NewPassword: string;
+  Comfirm: string;
+}
+
 type SettingsLanguage = {
+  Title: string;
   Exit: string;
+  Profile: string;
 };
 
 type LitleBoxLanguage = {
   Title: string;
   Amount: string;
+  Remove: string;
+  PiggyBankRemoved: string;
+  ListEmpty: string;
 };
 
-type GroupsLanguage = {
+type DashboardLanguage = {
   Title: string;
-  NewGroup: string;
 };
 
 type NewLittleBoxLanguage = {
   Title: string;
   Description: string;
   Confirm: string;
+  Create: string;
+  PiggyBankCreated: string;
+  Error: string;
+  FillFields: string;
+  Goal: string;
+  HowLong: string;
+
 };
 
-type NewGroupLanguage = {
+type ToAddLanguage = {
   Title: string;
+  Add: string;
+  TransactionAdded: string;
+  FillFields: string;
   Description: string;
-  Confirm: string;
-};
+  FixedExpense: string;
+  Comfirm: string;
+}
 
 type LittleBoxDetailsLanguage = {
   Goal: string;
@@ -53,30 +83,22 @@ type LittleBoxDetailsLanguage = {
   Expense: string;
   ToSave: string;
   ToTakeOut: string;
+  Error: string;
+  ExceedGoal: string;
+  BelowZero: string;
+  Until: string;
+  ListEmpty: string;
 };
-
-type GroupDetailsLanguage = {
-  Goal: string;
-  Entry: string;
-  Expense: string;
-  ToSave: string;
-  ToTakeOut: string;
-  ParticipantsName: string;
-  value: string;
-  Responsible: string;
-  Contributions: string;
-  AddNewMember: string;
-};
-
-type ToAddPeopleLangage = {
-  title: string;
-  search: string;
-}
 
 //COMPONENTS LANGUAGE
 
 type ComponentsLanguage = {
   Until: string;
+  Goal: string;
+  RemovePiggyBank: string;
+  Remove: string;
+  Yes: string;
+  No: string;
 };
 
 //General
@@ -102,16 +124,15 @@ export type Language = {
   Login: LoginLanguange;
   Create: CreateLanguage;
   Home: HomeLanguage;
+  Profile: ProfileLanguage;
   Settings: SettingsLanguage;
   LittleBox: LitleBoxLanguage;
-  Groups: GroupsLanguage;
+  Dashboard: DashboardLanguage;
   NewLittleBox: NewLittleBoxLanguage;
-  NewGroup: NewGroupLanguage;
   LittleBoxDetails: LittleBoxDetailsLanguage;
-  GroupDetails: GroupDetailsLanguage;
+  ToAdd: ToAddLanguage;
   Components: ComponentsLanguage;
   CoinSymbol: CoinSymbol;
-  ToAddPeople: ToAddPeopleLangage;
 };
 
 export function selectLanguage(language: string | null): Language {

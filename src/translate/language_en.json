@@ -80,54 +80,76 @@
         "Name": "December",
         "Acronym": "DEC"
       }
-    ]
+    ],
+    "Entries": "Entries",
+    "Expenses": "Expenses",
+    "MonthlyBalance": "Monthly balance",
+    "TransactionHistory": "Transaction history",
+    "Variables": "Variables",
+    "FixedExpenses": "Fixed expenses"
+  },
+  "Profile": {
+    "Title": "Profile",
+    "Name": "Name",
+    "ChangePassword": "Change password",
+    "CurrentPassword": "Current password",
+    "NewPassword": "New password",
+    "Comfirm": "Comfirm"
   },
   "Settings": {
-    "Exit": "Exit"
+    "Title": "Settings",
+    "Exit": "Exit",
+    "Profile": "Profile"
   },
   "LittleBox": {
     "Title": "Piggy Bank",
-    "Amount": "Amount"
+    "Amount": "Amount",
+    "Remove": "Remove",
+    "PiggyBankRemoved": "Piggy bank removed",
+    "ListEmpty": "Create your piggy banks and organize your money however you like"
   },
-  "Groups": {
-    "Title": "Groups",
-    "NewGroup": "New group"
+  "Dashboard": {
+    "Title": "Soon"
   },
   "NewLittleBox": {
     "Title": "New piggy bank",
     "Description": "description",
-    "Confirm": "Confirm"
-  },
-  "NewGroup": {
-    "Title": "New group",
-    "Description": "description",
-    "Confirm": "Confirm"
+    "Confirm": "Confirm",
+    "Create": "Create",
+    "PiggyBankCreated": "Piggy bank created",
+    "Error": "Error",
+    "FillFields": "Fill in the fields",
+    "Goal": "Goal",
+    "HowLong": "How long?"
   },
   "LittleBoxDetails": {
     "Goal": "goal",
     "Entry": "Entry",
     "Expense": "Expense",
     "ToSave": "Save",
-    "ToTakeOut": "TakeOut"
-  },
-  "GroupDetails": {
-    "Goal": "goal",
-    "Entry": "Entry",
-    "Expense": "Expense",
-    "ToSave": "Save",
     "ToTakeOut": "TakeOut",
-    "ParticipantsName": "Participant's name",
-    "value": "Value",
-    "Responsible": "Responsible",
-    "Contributions": "Contributions",
-    "AddNewMember": "Add a new member"
+    "Error": "Error",
+    "ExceedGoal": "Adjust your goal to save more money",
+    "BelowZero": "Your balance cannot go negative",
+    "Until": "until",
+    "ListEmpty": "Save money in your piggy bank to reach your goal"
   },
-  "ToAddPeople": {
-    "title": "Add people",
-    "search": "Search for people"
+  "ToAdd": {
+    "Title": "New Transaction",
+    "Add": "Add",
+    "TransactionAdded": "Transaction added",
+    "FillFields": "Fill in the fields",
+    "Description": "description",
+    "FixedExpense": "Fixed expense",
+    "Comfirm": "Comfirm"
   },
   "Components": {
-    "Until": "unitil"
+    "Until": "until",
+    "Goal": "goal",
+    "RemovePiggyBank": "Do you want to delete this piggy bank?",
+    "Remove": "Remove",
+    "Yes": "Yes",
+    "No": "No"
   },
   "CoinSymbol": {
     "Symbol": "U$"

@@ -21,7 +21,7 @@ export function ButtonToast({ action, confirm }: ButtonToastProps) {
       }).start();
     } else if (action === "close") {
       Animated.timing(bottom, {
-        toValue: -300,
+        toValue: -350,
         duration: 500,
         useNativeDriver: false,
       }).start();

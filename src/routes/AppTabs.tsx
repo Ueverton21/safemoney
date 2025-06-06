@@ -5,28 +5,47 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Home from "@/screens/Home";
 import LittleBox from "@/screens/LittleBox";
-import Groups from "@/screens/Groups";
 import Settings from "@/screens/Settings";
 import ToAdd from "@/screens/ToAdd";
 import { Platform, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackList } from "./AppStacks";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import Dashboard from "@/screens/Dashboard";
 
 export type RootTabsList = {
   Home: undefined;
   LittleBox: undefined;
-  Groups: undefined;
+  Dashboard: undefined;
   Settings: undefined;
   ToAdd: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackList, "Tabs">;
+
 const TAB_HEIGHT_ANDROID = 60;
 const TAB_HEIGHT_IOS = 80;
 export default function AppTabs(props: Props) {
   const Tab = createBottomTabNavigator<RootTabsList>();
 
   const inset = useSafeAreaInsets().bottom + TAB_HEIGHT_ANDROID;
+
+  const navigation = useNavigation();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBeforeRemove = (e: any) => {
+        e.preventDefault(); // bloqueia o voltar só dentro das tabs
+      };
+
+      navigation.addListener('beforeRemove', onBeforeRemove);
+
+      return () => {
+        navigation.removeListener('beforeRemove', onBeforeRemove);
+      };
+    }, [navigation])
+  );
+
 
   return (
     <Tab.Navigator
@@ -86,11 +105,11 @@ export default function AppTabs(props: Props) {
         }}
       />
       <Tab.Screen
-        name="Groups"
-        component={Groups}
+        name="Dashboard"
+        component={Dashboard}
         options={{
           tabBarIcon({ color }) {
-            return <Feather color={color} size={28} name="users" />;
+            return <Feather color={color} size={28} name="trending-up" />;
           },
         }}
       />
@@ -103,14 +122,6 @@ export default function AppTabs(props: Props) {
           },
         }}
       />
-      {/* <Tab.Screen
-        name="NewLittleBox"
-        component={NewLittleBox}
-        options={{
-          tabBarButton: () => null,
-          tabBarStyle: { display: "none" },
-        }}
-      /> */}
     </Tab.Navigator>
   );
 }

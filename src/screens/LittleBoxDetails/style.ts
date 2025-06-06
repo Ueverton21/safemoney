@@ -10,12 +10,6 @@ export const styles = StyleSheet.create({
     marginBottom: 20
   },
   buttonGoal: {
-    minWidth: '62%',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  buttonDateGoal: {
-    width: '38%',
     flexDirection: 'row',
     alignItems: 'center',
   },

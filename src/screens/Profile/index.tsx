@@ -7,14 +7,16 @@ import { styles } from "./styles";
 import { useUserStore } from "@/stores/UserStore";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { MyTheme } from "../Theme";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 export default function Profile() {
   const [name, setName] = useState("");
   const { user } = useUserStore();
+  const { language } = useLanguageStore();
   return (
-    <ScreenBackground title="Perfil">
-      <Text style={styles.textBase}>Nome</Text>
-      <Input setValue={setName} placeholder="Nome" value={user?.Name} />
+    <ScreenBackground title={language!.Profile.Title}>
+      <Text style={styles.textBase}>{language!.Profile.Name}</Text>
+      <Input setValue={setName} placeholder={language!.Profile.Name} value={user?.Name} />
       <Text style={styles.textBase}>Email</Text>
       <Input
         editable={false}
@@ -22,18 +24,18 @@ export default function Profile() {
         placeholder="Email"
         value={user?.Email}
       />
-      <Text style={styles.textBase}>Alterar senha</Text>
+      <Text style={styles.textBase}>{language!.Profile.ChangePassword}</Text>
       <Input
         setValue={setName}
-        placeholder="Senha atual"
+        placeholder={language!.Profile.CurrentPassword}
         secureTextEntry={true}
       />
       <Input
         setValue={setName}
-        placeholder="Nova senha"
+        placeholder={language!.Profile.NewPassword}
         secureTextEntry={true}
       />
-      <ButtonSubmit color={MyTheme.colors.primary} text="Confirmar" />
+      <ButtonSubmit color={MyTheme.colors.primary} text={language!.Profile.Comfirm} />
     </ScreenBackground>
   );
 }

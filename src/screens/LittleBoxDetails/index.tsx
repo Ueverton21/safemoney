@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableWithoutFeedback,
   View
 } from "react-native";
@@ -72,7 +73,11 @@ export default function LittleBoxDetails() {
     if (piggyBankData) {
       setpiggyBank(piggyBankData)
       setEditGoalField(piggyBankData.goal.toString())
-      setEditDateGoalField(piggyBankData.dateGoal.toLocaleDateString())
+      setEditDateGoalField(piggyBankData.dateGoal.toLocaleDateString(language!.Name === 'en' ? 'en-US' : 'pt-BR', {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      }))
       setEditTitleField(piggyBankData.description);
       await getMovimentsOfPiggyBank(piggyBankData.id!, user!.Email);
       setMovimentsLoaded(true);
@@ -115,14 +120,17 @@ export default function LittleBoxDetails() {
   }
 
   async function handleEditPiggyBank() {
-    Keyboard.dismiss();
-    setButtonToastIsVisible(false);
     if (piggyBank) {
+      if (parseFloat(editGoalField) - piggyBank.amountValue < 0) {
+        return showToastError('above-goal')
+      }
+      Keyboard.dismiss();
+      setButtonToastIsVisible(false);
       setIsLoading(true);
       const updatedPiggyBank: PiggyBank = {
         id: piggyBank.id,
         amountValue: piggyBank.amountValue,
-        dateGoal: parseDateString(editDateGoalField)!,
+        dateGoal: parseDateString(editDateGoalField, language!.Name)!,
         description: editTitleField,
         goal: parseFloat(editGoalField)
       }
@@ -133,17 +141,25 @@ export default function LittleBoxDetails() {
   }
 
   function showToastError(error: 'below-zero' | 'above-goal') {
-    Toast.show({
-      type: "error",
-      text1: "Erro",
-      text2:
+    Platform.OS === "ios"
+      ? Toast.show({
+        type: "error",
+        text1: language!.LittleBoxDetails.Error,
+        text2:
+          error === 'above-goal'
+            ? language!.LittleBoxDetails.ExceedGoal
+            : error === "below-zero"
+              ? language!.LittleBoxDetails.BelowZero
+              : "algo deu errado",
+        visibilityTime: 2000,
+      }) : ToastAndroid.show(
         error === 'above-goal'
-          ? "altere sua meta para guardar mais dineiro"
+          ? language!.LittleBoxDetails.ExceedGoal
           : error === "below-zero"
-            ? "não é possível que seu saldo fique negativo"
+            ? language!.LittleBoxDetails.BelowZero
             : "algo deu errado",
-      visibilityTime: 1500,
-    });
+        ToastAndroid.SHORT
+      )
   }
 
   useEffect(() => {
@@ -183,16 +199,16 @@ export default function LittleBoxDetails() {
                 <TouchableWithoutFeedback>
                   <View style={styles.row}>
                     <View
-                      style={styles.buttonGoal}
+                      style={[styles.buttonGoal, { minWidth: language!.Name === 'es' ? '53%' : language!.Name === 'en' ? '61%' : '63%' }]}
                     >
                       <Text style={styles.labelText}>
-                        meta: {language?.CoinSymbol.Symbol}
+                        {language!.LittleBoxDetails.Goal}: {language!.CoinSymbol.Symbol}
                       </Text>
                       <TextInput
                         onFocus={() => setButtonToastIsVisible(true)}
                         onBlur={() => setButtonToastIsVisible(false)}
                         style={styles.editInput}
-                        value={parseFloat(editGoalField) === piggyBank.goal ? parseFloat(editGoalField).toLocaleString('pt-BR', {
+                        value={parseFloat(editGoalField) === piggyBank.goal ? parseFloat(editGoalField).toLocaleString(language!.Name === 'en' ? 'en-US' : 'pt-BR', {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
                         }) : editGoalField}
@@ -200,17 +216,17 @@ export default function LittleBoxDetails() {
                       />
                     </View>
                     <View
-                      style={styles.buttonDateGoal}
+                      style={[styles.buttonGoal, { width: language!.Name === 'es' ? '47%' : language!.Name === 'en' ? '39%' : '37%' }]}
                     >
                       <Text style={styles.labelText}>
-                        até:
+                        {language!.LittleBoxDetails.Until}:
                       </Text>
                       <TextInput
                         onFocus={() => setButtonToastIsVisible(true)}
                         onBlur={() => setButtonToastIsVisible(false)}
                         style={styles.editInput}
                         value={editDateGoalField}
-                        onChangeText={(text) => setEditDateGoalField(dateMask(text))}
+                        onChangeText={(text) => setEditDateGoalField(dateMask(text, language!.Name))}
                       />
                     </View>
                   </View>
@@ -243,13 +259,13 @@ export default function LittleBoxDetails() {
                   </Text>
                   <Input
                     leftIcon={<FontAwesome5 name="dollar-sign" size={24} color={MyTheme.colors.white} />}
-                    placeholder="00,00"
+                    placeholder={language!.Name === 'en' ? "00.00" : "00,00"}
                     keyboardType="numeric"
                     onChangeText={(text) => setMoneyValue(decimalMask(text))}
                     value={moneyValue}
                   />
                   <ButtonSubmit
-                    text={isEntry ? 'Guardar' : 'Retirar'}
+                    text={isEntry ? language!.LittleBoxDetails.ToSave : language!.LittleBoxDetails.ToTakeOut}
                     color={isEntry ? MyTheme.colors.primary : MyTheme.colors.red}
                     disabled={moneyValue.trim() === ''}
                     onPress={() => handleAddMoviment({
@@ -270,7 +286,7 @@ export default function LittleBoxDetails() {
                   keyExtractor={(item) => item.Id!}
                   renderItem={({ item }) => {
                     var obj = item;
-                    obj.Description = obj.Date.toLocaleDateString('pt-BR', { weekday: 'long' }).toString()
+                    obj.Description = obj.Date.toLocaleDateString(language!.Name === 'en' ? 'en-US' : language!.Name === 'pt' ? 'pt-BR' : 'es-ES', { weekday: 'long' }).toString()
                     return <MovimentDetail
                       moviment={obj}
                       handleRemove={() => handleRemoveMoviment(item)}
@@ -283,7 +299,7 @@ export default function LittleBoxDetails() {
                     return (
                       <View style={styles.listMovimentsEmptyContainer}>
                         <Text style={styles.listMovimentsEmptyText}>
-                          Guarde dinheiro em sua caixinha para bater sua meta
+                          {language!.LittleBoxDetails.ListEmpty}
                         </Text>
                       </View>
                     )

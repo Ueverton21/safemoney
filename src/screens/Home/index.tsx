@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
   ScrollView,
@@ -77,8 +77,6 @@ export default function Home() {
   const exitsSum =
     moviments && moviments.length > 0 ? getTotalExits(moviments) : 0;
 
-  console.log(exitsSum);
-  console.log(exitsFixedBalance);
   return (
     <View style={styles.main}>
       {moviments == null ? (
@@ -92,7 +90,11 @@ export default function Home() {
           <View style={styles.boxBalance}>
             {visibleBalance ? (
               <Text style={styles.text}>
-                {language?.Home.Balance}: {user?.Balance?.toFixed(2)} R$
+                {language!.Home.Balance}: {user?.Balance?.toLocaleString(language!.Name === 'en' ? 'en-US' : 'pt-BR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                  minimumIntegerDigits: 1
+                })} {language!.CoinSymbol.Symbol}
               </Text>
             ) : (
               <View style={styles.balanceHidden}></View>
@@ -118,7 +120,7 @@ export default function Home() {
                     var yearSelect = item.split("-")[1];
                     return {
                       name:
-                        language?.Home.Monthly.find(
+                        language!.Home.Monthly.find(
                           (val, index) => index == monthInt - 1
                         )?.Name +
                         ", " +
@@ -133,7 +135,7 @@ export default function Home() {
                 >
                   <View style={styles.monthly}>
                     <Text style={styles.monthlyText}>
-                      {language?.Home.Monthly.find(
+                      {language!.Home.Monthly.find(
                         (val, index) =>
                           index == Number.parseInt(month.split("-")[0]) - 1
                       )?.Name +
@@ -160,7 +162,7 @@ export default function Home() {
                         { color: MyTheme.colors.white },
                       ]}
                     >
-                      Entradas
+                      {language!.Home.Entries}
                     </Text>
                     <View style={styles.boxMovimentValue}>
                       <Text
@@ -169,8 +171,8 @@ export default function Home() {
                           { color: MyTheme.colors.primary, marginRight: 4 },
                         ]}
                       >
-                        R${" "}
-                        {Number.parseFloat(entriesSum).toLocaleString("pt-BR", {
+                        {language!.CoinSymbol.Symbol}{" "}
+                        {Number.parseFloat(entriesSum).toLocaleString(language!.Name === 'en' ? "en-US" : "pt-BR", {
                           minimumFractionDigits: 2,
                         })}
                       </Text>
@@ -193,7 +195,7 @@ export default function Home() {
                         { color: MyTheme.colors.white, textAlign: "right" },
                       ]}
                     >
-                      Despesas
+                      {language!.Home.Expenses}
                     </Text>
                     <View
                       style={[
@@ -212,9 +214,9 @@ export default function Home() {
                           { color: MyTheme.colors.red, marginLeft: 4 },
                         ]}
                       >
-                        R$
+                        {language!.CoinSymbol.Symbol}
                         {(exitsSum * -1 + exitsFixedBalance).toLocaleString(
-                          "pt-BR",
+                          language!.Name === 'en' ? "en-US" : "pt-BR",
                           { minimumFractionDigits: 2 }
                         )}
                       </Text>
@@ -222,28 +224,28 @@ export default function Home() {
                   </View>
                 </View>
                 <Text style={[styles.centerText, styles.titleBalanceMonth]}>
-                  Saldo do mês
+                  {language!.Home.MonthlyBalance}
                 </Text>
                 <Text style={[styles.centerText, styles.valueBalanceMonth]}>
-                  R${" "}
+                  {language!.CoinSymbol.Symbol}{" "}
                   {(
                     Number.parseFloat(entriesSum) -
                     exitsSum +
                     exitsFixedBalance
-                  ).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                  ).toLocaleString(language!.Name === 'en' ? "en-US" : "pt-BR", { minimumFractionDigits: 2 })}
                 </Text>
                 <Text style={styles.titleHistorical}>
-                  Histórico de movimentação
+                  {language!.Home.TransactionHistory}
                 </Text>
                 <View style={{ flexDirection: "row" }}>
                   <SelectedButton
-                    text="Variáveis"
+                    text={language!.Home.Variables}
                     isSelected={movimentTypeToList == "variable"}
                     onPress={() => handleSelectedVariableOrFixed()}
                   />
                   <View style={{ paddingHorizontal: 4 }}></View>
                   <SelectedButton
-                    text="Despesas Fixas"
+                    text={language!.Home.FixedExpenses}
                     isSelected={movimentTypeToList == "fixed"}
                     onPress={() => handleSelectedVariableOrFixed()}
                   />
@@ -266,7 +268,7 @@ export default function Home() {
                       return (
                         <MovimentDetail
                           moviment={{ ...item, Type: 'exit', Date: new Date }}
-                          handleRemove={async () => { }}
+                          handleRemove={() => handleRemove(item)}
                           key={item.Id!}
                         />
                       );

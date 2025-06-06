@@ -80,54 +80,76 @@
         "Name": "Dezembro",
         "Acronym": "DEZ"
       }
-    ]
+    ],
+    "Entries": "Entradas",
+    "Expenses": "Saída",
+    "MonthlyBalance": "Saldo do mês",
+    "TransactionHistory": "Histórico de transações",
+    "Variables": "Variáveis",
+    "FixedExpenses": "Saída fixa"
+  },
+  "Profile": {
+    "Title": "Perfil",
+    "Name": "Nome",
+    "ChangePassword": "Alterar senha",
+    "CurrentPassword": "Senha atual",
+    "NewPassword": "Nova senha",
+    "Comfirm": "Confirmar"
   },
   "Settings": {
-    "Exit": "Sair"
+    "Title": "Configurações",
+    "Exit": "Sair",
+    "Profile": "Perfil"
   },
   "LittleBox": {
     "Title": "Caixinhas",
-    "Amount": "Total"
+    "Amount": "Total",
+    "Remove": "Remover",
+    "PiggyBankRemoved": "Caixinha removida",
+    "ListEmpty": "Crie suas caixinhas e organize seu dinheiro da maneira que quiser"
   },
-  "Groups": {
-    "Title": "Grupos",
-    "NewGroup": "Novo grupo"
+  "Dashboard": {
+    "Title": "Em breve"
   },
   "NewLittleBox": {
     "Title": "Nova Caixinha",
     "Description": "descrição",
-    "Confirm": "Confirmar"
-  },
-  "NewGroup": {
-    "Title": "Novo Grupo",
-    "Description": "descrição",
-    "Confirm": "Confirmar"
+    "Confirm": "Confirmar",
+    "Create": "Criar",
+    "PiggyBankCreated": "Caixinha criada",
+    "Error": "Erro",
+    "FillFields": "Preencha os campos",
+    "Goal": "Meta",
+    "HowLong": "Até quando?"
   },
   "LittleBoxDetails": {
     "Goal": "meta",
     "Entry": "Entrada",
     "Expense": "Saída",
     "ToSave": "Guardar",
-    "ToTakeOut": "Retirar"
-  },
-  "GroupDetails": {
-    "Goal": "meta",
-    "Entry": "Entrada",
-    "Expense": "Saída",
-    "ToSave": "Guardar",
     "ToTakeOut": "Retirar",
-    "ParticipantsName": "Nome do participante",
-    "value": "Valor",
-    "Responsible": "responsável",
-    "Contributions": "Contribuições",
-    "AddNewMember": "Adicionar um novo integrante"
+    "Error": "Error",
+    "ExceedGoal": "Altere sua meta para guardar mais dinheiro",
+    "BelowZero": "Não é possível que seu saldo fique negativo",
+    "Until": "até",
+    "ListEmpty": "Guarde dinheiro em sua caixinha para bater sua meta"
   },
-  "ToAddPeople": {
-    "title": "Adicionar Pessoas",
-    "search": "buscar por pessoas"
+  "ToAdd": {
+    "Title": "Nova movimentação",
+    "Add": "Adicionar",
+    "TransactionAdded": "Transação adicionada",
+    "FillFields": "Preencha os campos",
+    "Description": "Descrição",
+    "FixedExpense": "Despesa fixa",
+    "Comfirm": "Confirmar"
   },
   "Components": {
-    "Until": "até"
+    "Until": "até",
+    "Goal": "meta",
+    "RemovePiggyBank": "Deseja excluir essa caixinha?",
+    "Remove": "Excluir",
+    "Yes": "Sim",
+    "No": "Nao"
   },
   "CoinSymbol": {
     "Symbol": "R$"

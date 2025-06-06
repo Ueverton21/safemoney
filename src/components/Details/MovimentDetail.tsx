@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { dateToText } from "@/utils/TextDateMoviment";
 import { AlertConfirm } from "../Alerts/AlertConfirm";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 interface MovimentDetailProps {
   moviment: Moviment,
@@ -13,6 +14,8 @@ interface MovimentDetailProps {
 
 export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) {
   const [isVisibleDelete, setIsVisibleDelete] = useState(false);
+
+  const { language } = useLanguageStore();
 
   function closeAlertFirst() {
     setIsVisibleDelete(false);
@@ -46,16 +49,18 @@ export function MovimentDetail({ moviment, handleRemove }: MovimentDetailProps) 
           <Text style={styles.title}>{moviment.Description}</Text>
           {moviment.Type == "entry" ? (
             <Text style={styles.value}>
-              {"R$ " +
-                moviment.Value.toLocaleString("pt-BR", {
+              {language!.CoinSymbol.Symbol + " " +
+                moviment.Value.toLocaleString(language!.Name === 'en' ? "en-US" : "pt-BR", {
                   minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
                 })}
             </Text>
           ) : (
             <Text style={styles.value}>
-              {"R$ -" +
-                moviment.Value.toLocaleString("pt-BR", {
+              {language!.CoinSymbol.Symbol + " " +
+                moviment.Value.toLocaleString(language!.Name === 'en' ? "en-US" : "pt-BR", {
                   minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
                 })}
             </Text>
           )}

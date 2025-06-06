@@ -24,15 +24,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right'
   },
-  progressContainer: {
-    width: '100%',
-    backgroundColor: MyTheme.colors.secondary,
-    height: 4,
+  balanceHidden: {
+    height: 18,
+    backgroundColor: MyTheme.colors.medium_gray,
+    borderRadius: 2,
+    width: 70,
   },
-  progress: {
-    backgroundColor: MyTheme.colors.primary,
-    height: 4,
-    borderTopRightRadius: 2,
-    borderBottomRightRadius: 2,
-  }
 });

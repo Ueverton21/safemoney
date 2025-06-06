@@ -80,54 +80,76 @@
         "Name": "Diciembre",
         "Acronym": "DIC"
       }
-    ]
+    ],
+    "Entries": "Entradas",
+    "Expenses": "Salidas",
+    "MonthlyBalance": "Saldo del mes",
+    "TransactionHistory": "Historial de transacciones",
+    "Variables": "Variables",
+    "FixedExpenses": "Gastos fijos"
+  },
+  "Profile": {
+    "Title": "Perfil",
+    "Name": "Nombre",
+    "ChangePassword": "Cambiar contraseña",
+    "CurrentPassword": "Contraseña actual",
+    "NewPassword": "Nueva contraseña",
+    "Comfirm": "Confirmar"
   },
   "Settings": {
-    "Exit": "Salir"
+    "Title": "Configuración",
+    "Exit": "Salir",
+    "Profile": "Perfil"
   },
   "LittleBox": {
     "Title": "alcancías",
-    "Amount": "Total"
+    "Amount": "Total",
+    "Remove": "Quitar",
+    "PiggyBankRemoved": "Alcancía retirada",
+    "ListEmpty": "Crea tus alcancías y organiza tu dinero como quieras"
   },
-  "Groups": {
-    "Title": "Grupos",
-    "NewGroup": "Nuevo grupo"
+  "Dashboard": {
+    "Title": "Pronto"
   },
   "NewLittleBox": {
     "Title": "Nueva alcancías",
     "Description": "descripción",
-    "Confirm": "Confirmar"
-  },
-  "NewGroup": {
-    "Title": "Nuevo grupo",
-    "Description": "descripción",
-    "Confirm": "Confirmar"
+    "Confirm": "Confirmar",
+    "Create": "Crear",
+    "PiggyBankCreated": "Alcancía creada",
+    "Error": "Error",
+    "FillFields": "Complete los campos",
+    "Goal": "Meta",
+    "HowLong": "¿Hasta qué fecha?"
   },
   "LittleBoxDetails": {
     "Goal": "meta",
     "Entry": "Entrada",
     "Expense": "Salida",
     "ToSave": "Ahorrar",
-    "ToTakeOut": "Retirar"
-  },
-  "GroupDetails": {
-    "Goal": "meta",
-    "Entry": "Entrada",
-    "Expense": "Salida",
-    "ToSave": "Ahorrar",
     "ToTakeOut": "Retirar",
-    "ParticipantsName": "Nombre del participante",
-    "value": "Valor",
-    "Responsible": "Responsable",
-    "Contributions": "Contribuciones",
-    "AddNewMember": "Agregar un nuevo integrante"
+    "Error": "Error",
+    "ExceedGoal": "Ajusta tu meta para ahorrar más dinero",
+    "BelowZero": "No es posible que tu saldo sea negativo",
+    "Until": "hasta el",
+    "ListEmpty": "Guarda dinero en tu alcancía para alcanzar tu meta"
   },
-  "ToAddPeople": {
-    "title": "Agregar personas",
-    "search": "Buscar personas"
+  "ToAdd": {
+    "Title": "Nuevo movimiento",
+    "Add": "Agregar",
+    "TransactionAdded": "Movimiento agregado",
+    "FillFields": "Complete los campos",
+    "Description": "descripción",
+    "FixedExpense": "Gasto fijo",
+    "Comfirm": "Confirmar"
   },
   "Components": {
-    "Until": "hasta el"
+    "Until": "hasta el",
+    "Goal": "meta",
+    "RemovePiggyBank": "¿Deseas eliminar esta alcancía?",
+    "Remove": "Quitar",
+    "Yes": "Si",
+    "No": "No"
   },
   "CoinSymbol": {
     "Symbol": "€"

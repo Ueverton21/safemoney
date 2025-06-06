@@ -4,8 +4,9 @@ import {
   ToastAndroid,
   Keyboard,
   TouchableOpacity,
+  Platform,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import Toast from "react-native-toast-message";
 
@@ -14,8 +15,6 @@ import { MyTheme } from "../Theme";
 import { ScreenBackground } from "@/components/Background/ScreenBackground";
 import { ButtonSubmit } from "@/components/Buttons/ButtonSubmit";
 import { Input } from "@/components/Inputs/Input";
-import { ArrowButton } from "@/components/Buttons/ArrowButton";
-import { ListButton } from "@/components/Buttons/ListButton";
 
 import { styles } from "./styles";
 import { useMovimentStore } from "@/stores/MovimentStore";
@@ -23,17 +22,18 @@ import { useUserStore } from "@/stores/UserStore";
 import { decimalMask } from "@/utils/Masks";
 import { Check } from "@/components/Check/Check";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLanguageStore } from "@/stores/LanguageStore";
 
 export default function ToAdd() {
   const [isEntry, setIsEntry] = useState(true);
   const [description, setDescription] = useState("");
   const [moneyValue, setMoneyValue] = useState("");
-  const [listVisible, setListVisible] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
 
   const { addMoviment, addExitFixedMoviment, loadExitBalance } =
     useMovimentStore();
   const { user } = useUserStore();
+  const { language } = useLanguageStore();
 
   /*Chamar a função para puxar o balanço fixo de saídas do mês atual,
   assim evita problemas do usuário ao adicionar despesa fixa dê algum
@@ -94,22 +94,26 @@ export default function ToAdd() {
     }
   }
   function showToastSuccess() {
-    Toast.show({
-      type: "success",
-      text1: "Adicionar",
-      text2: "Movimentação adicionada",
-    });
+    Platform.OS === "ios"
+      ? Toast.show({
+        type: "success",
+        text1: language!.ToAdd.Add,
+        text2: language!.ToAdd.TransactionAdded,
+      })
+      : ToastAndroid.show(language!.ToAdd.TransactionAdded, ToastAndroid.SHORT);
   }
   function showToastError() {
-    Toast.show({
-      type: "error",
-      text1: "Erro",
-      text2: "Preencha os campos",
-    });
+    Platform.OS === "ios"
+      ? Toast.show({
+        type: "error",
+        text1: language!.ToAdd.Add,
+        text2: language!.ToAdd.FillFields,
+      })
+      : ToastAndroid.show(language!.ToAdd.FillFields, ToastAndroid.SHORT);
   }
 
   return (
-    <ScreenBackground title="Nova movimentação">
+    <ScreenBackground title={language!.ToAdd.Title}>
       <Toast position="bottom" />
       <View style={styles.buttonContainer}>
         <View style={{ width: "47%" }}>
@@ -154,26 +158,9 @@ export default function ToAdd() {
                 color={MyTheme.colors.background_secondary}
               />
             }
-            rightIcon={
-              <ArrowButton
-                direction={listVisible ? "up" : "down"}
-                smallSize
-                onPress={() => setListVisible(!listVisible)}
-              />
-            }
-            placeholder="descrição"
-            onChangeText={(txt) => setDescription(txt)}
+            placeholder={language!.ToAdd.Description}
+            onChangeText={setDescription}
           />
-          {listVisible && (
-            <ScrollView
-              style={styles.listcontainer}
-              contentContainerStyle={{ paddingVertical: 10 }}
-            >
-              {/*ENTRY_DESCRIPTION.map((item) => {
-                return <ListButton key={item.id} title={item.title} />;
-              })*/}
-            </ScrollView>
-          )}
         </View>
         {!isEntry && (
           <>
@@ -181,7 +168,7 @@ export default function ToAdd() {
               <Check
                 selectedColor={MyTheme.colors.primary}
                 isSelected={isFixed}
-                text="Gasto fixo"
+                text={language!.ToAdd.FixedExpense}
               />
             </TouchableOpacity>
             <View style={{ marginBottom: 16 }} />
@@ -190,7 +177,7 @@ export default function ToAdd() {
 
         <ButtonSubmit
           color={MyTheme.colors.primary}
-          text="Confirmar"
+          text={language!.ToAdd.Add}
           onPress={handleAddMoviment}
         />
       </View>

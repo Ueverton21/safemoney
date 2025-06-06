@@ -1,4 +1,4 @@
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, ToastAndroid, TouchableWithoutFeedback, View } from "react-native";
 import React, { useState } from "react";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
@@ -26,6 +26,7 @@ type StackScreenNavigationProp = NativeStackNavigationProp<RootStackList, "NewLi
 
 
 export default function NewLittleBox() {
+  const [postingPiggyBank, setPostingPiggyBank] = useState(false);
   const [description, setDescription] = useState("");
   const [moneyValue, setMoneyValue] = useState("");
   const [dateGoal, setDateGoal] = useState("");
@@ -52,14 +53,16 @@ export default function NewLittleBox() {
   ];
 
   async function handleNewPiggyBank() {
-    if (description.trim() === "" || moneyValue.trim() === "") {
+    setPostingPiggyBank(true);
+    if (description.trim() === "" || moneyValue.trim() === "" || dateGoal.trim() === "") {
       Keyboard.dismiss();
       showToastError();
+      setPostingPiggyBank(false);
     } else {
-      if (parseDateString(dateGoal)) {
+      if (parseDateString(dateGoal, language!.Name)) {
         newPiggyBank(
           {
-            dateGoal: parseDateString(dateGoal)!,
+            dateGoal: parseDateString(dateGoal, language!.Name)!,
             description: description,
             amountValue: 0,
             goal: Number.parseFloat(moneyValue),
@@ -68,32 +71,36 @@ export default function NewLittleBox() {
         ).then(() => {
           setDescription('');
           setMoneyValue('');
+          setDateGoal('');
           Keyboard.dismiss();
           showToastSuccess();
-          return new Promise(res => setTimeout(res, 2000));
-
+          return new Promise(res => setTimeout(res, 2200));
         }).then(() =>
-          navigation.navigate('Tabs')
+          navigation.goBack()
         )
       }
     }
   }
 
   function showToastSuccess() {
-    Toast.show({
-      type: "success",
-      text1: "Criar",
-      text2: "Caixinha criada",
-      visibilityTime: 1500,
-    });
+    Platform.OS === 'ios'
+      ? Toast.show({
+        type: "success",
+        text1: language!.NewLittleBox.Create,
+        text2: language!.NewLittleBox.PiggyBankCreated,
+        visibilityTime: 2000,
+      })
+      : ToastAndroid.show(language!.NewLittleBox.PiggyBankCreated, ToastAndroid.SHORT)
   }
   function showToastError() {
-    Toast.show({
-      type: "error",
-      text1: "Erro",
-      text2: "Preencha os campos",
-      visibilityTime: 1500,
-    });
+    Platform.OS === 'ios'
+      ? Toast.show({
+        type: "error",
+        text1: language!.NewLittleBox.Create,
+        text2: language!.NewLittleBox.FillFields,
+        visibilityTime: 2000,
+      })
+      : ToastAndroid.show(language!.NewLittleBox.FillFields, ToastAndroid.SHORT)
   }
 
   return (
@@ -140,7 +147,7 @@ export default function NewLittleBox() {
               {!listVisible && (
                 <>
                   <Text style={styles.goalValueLabel}>
-                    meta
+                    {language!.NewLittleBox.Goal}
                   </Text>
                   <Input
                     leftIcon={
@@ -156,12 +163,12 @@ export default function NewLittleBox() {
                     value={moneyValue}
                   />
                   <Text style={styles.goalValueLabel}>
-                    até quando?
+                    {language!.NewLittleBox.HowLong}
                   </Text>
                   <Input
                     placeholder="00/00/0000"
                     keyboardType="numeric"
-                    onChangeText={(text) => setDateGoal(dateMask(text))}
+                    onChangeText={(text) => setDateGoal(dateMask(text, language!.Name))}
                     value={dateGoal}
                   />
                 </>
@@ -173,6 +180,7 @@ export default function NewLittleBox() {
             text={language!.NewLittleBox.Confirm}
             color={MyTheme.colors.primary}
             onPress={handleNewPiggyBank}
+            disabled={postingPiggyBank}
           />
         </KeyboardAvoidingView>
       </ScreenBackground>

@@ -33,13 +33,13 @@ export default function Settings() {
     );
   }
   return (
-    <ScreenBackground title="Configurações">
+    <ScreenBackground title={language!.Settings.Title}>
       <ButtonIcon
         backgroundColor={MyTheme.colors.red}
         backgroundTransparent={true}
         color={MyTheme.colors.red}
         icon="log-out"
-        text={language?.Settings.Exit!}
+        text={language!.Settings.Exit}
         onPress={() => executeLogout()}
       />
       <View style={{ marginTop: 20 }}></View>
@@ -48,7 +48,7 @@ export default function Settings() {
         backgroundTransparent={true}
         color={MyTheme.colors.primary}
         icon="user"
-        text={"Perfil"}
+        text={language!.Settings.Profile}
         onPress={() => navigation.navigate("Profile")}
       />
       <SelectLanguage />
